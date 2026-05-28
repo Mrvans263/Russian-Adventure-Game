@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>RED STAR ORBIT · STAGE 2 · Museum of Cosmonautics</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0c12; font-family: 'Courier New', monospace; color: #cfcfcf; padding: 2rem 1rem; }
+    .stage-container { max-width: 1000px; margin: 0 auto; }
+    .stage-header { border-bottom: 2px solid #b8581c; padding-bottom: 1rem; margin-bottom: 2rem; display: flex; justify-content: space-between; }
+    .stage-header h1 { font-size: 1.3rem; font-weight: 400; color: #e0d5b9; }
+    .counter { font-size: 0.7rem; color: #b8581c; }
+    .location-card { background: #0d0f16; border: 1px solid #2a2a2a; margin-bottom: 2rem; }
+    .location-title { background: #11131c; padding: 1rem; border-bottom: 1px solid #2a2a2a; }
+    .location-content { padding: 1.5rem; }
+    .task-block { border-left: 3px solid #b8581c; background: #0a0c12; padding: 1rem; margin-bottom: 1.5rem; }
+    .task-label { font-size: 0.7rem; color: #b8581c; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .task-question { font-size: 0.85rem; line-height: 1.5; margin-bottom: 0.8rem; }
+    input, textarea { width: 100%; background: #05070c; border: 1px solid #2a2a2a; padding: 0.7rem; color: #e0d5b9; font-family: monospace; }
+    .quiz-opt { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+    .quiz-opt input { width: auto; }
+    .music-status { background: #05070c; border: 1px solid #2a2a2a; padding: 0.6rem; text-align: center; font-size: 0.7rem; margin-bottom: 1.5rem; }
+    .btn { background: none; border: 1px solid #b8581c; padding: 0.8rem; font-family: monospace; font-size: 0.8rem; color: #e0d5b9; cursor: pointer; width: 100%; margin-top: 0.5rem; }
+    .btn:hover { background: #b8581c; color: #05070c; }
+    .nav-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
+    .nav-buttons .btn { flex: 1; margin-top: 0; }
+    footer { border-top: 1px solid #1a1c24; margin-top: 2rem; padding-top: 1rem; text-align: center; font-size: 0.6rem; }
+  </style>
+</head>
+<body>
+<div class="stage-container">
+  <div class="stage-header"><h1>✦ STAGE 02 · MUSEUM OF COSMONAUTICS</h1><div class="counter">LOCATION 2/5</div></div>
+  <div class="music-status" id="musicStatus">🎧 CLICK ANYWHERE TO START MUSIC</div>
+  <div class="location-card">
+    <div class="location-title">📍 Prospekt Mira 111 · Titanium Obelisk</div>
+    <div class="location-content">
+      <div class="task-block"><div class="task-label">📸 PHOTO TASK</div><div class="task-question">The 110m obelisk is clad in titanium. Observe its reflective surface and scale.</div><input type="text" id="photoDesc" placeholder="Describe the obelisk's presence..."></div>
+      <div class="task-block"><div class="task-label">❓ QUIZ</div><div class="task-question">Why did the Soviets choose titanium for this monument?</div>
+        <div class="quiz-opt"><input type="radio" name="titanium" value="Cheapest material"><label>Cheapest material available</label></div>
+        <div class="quiz-opt"><input type="radio" name="titanium" value="Geopolitical flex — aerospace dominance"><label>Geopolitical flex — aerospace dominance</label></div>
+        <div class="quiz-opt"><input type="radio" name="titanium" value="Light and easy to install"><label>Light and easy to install</label></div>
+      </div>
+      <div class="task-block"><div class="task-label">🤔 REFLECTION</div><div class="task-question">Find the statue of Konstantin Tsiolkovsky. What emotion does his posture convey?</div><textarea id="reflection" rows="3" placeholder="Dreamer / burdened / triumphant?..."></textarea></div>
+      <button id="saveBtn" class="btn">💾 SAVE PROGRESS</button>
+      <div class="nav-buttons"><button id="backBtn" class="btn">◀ PREVIOUS</button><button id="nextBtn" class="btn">NEXT STAGE ▶</button></div>
+    </div>
+  </div>
+  <footer>🎵 Music: "Grass Near the House" · /songs/stage2_museum.mp3</footer>
+</div>
+<script>
+  let audioStarted = false;
+  function startMusic() { if (audioStarted) return; try { const audio = new Audio("songs/stage2_museum.mp3"); audio.loop = true; audio.volume = 0.35; audio.play().then(() => { audioStarted = true; document.getElementById("musicStatus").innerHTML = "🎧 GRASS NEAR THE HOUSE — PLAYING"; }); } catch(e) { document.getElementById("musicStatus").innerHTML = "⚠️ AUDIO FILE MISSING"; } }
+  document.body.addEventListener("click", function init() { startMusic(); document.body.removeEventListener("click", init); });
+  function saveData() { localStorage.setItem("RSO_Stage2", JSON.stringify({ photoDesc: document.getElementById("photoDesc").value, titanium: document.querySelector('input[name="titanium"]:checked')?.value || "", reflection: document.getElementById("reflection").value })); localStorage.setItem("RSO_Stage2_Complete", "true"); }
+  function loadData() { const saved = localStorage.getItem("RSO_Stage2"); if (saved) { const data = JSON.parse(saved); document.getElementById("photoDesc").value = data.photoDesc || ""; if (data.titanium) { const radio = document.querySelector(`input[value="${data.titanium}"]`); if (radio) radio.checked = true; } document.getElementById("reflection").value = data.reflection || ""; } }
+  document.getElementById("photoDesc").addEventListener("input", saveData); document.getElementById("reflection").addEventListener("input", saveData); document.querySelectorAll('input[name="titanium"]').forEach(r => r.addEventListener("change", saveData));
+  document.getElementById("saveBtn").addEventListener("click", () => { saveData(); alert("✅ Saved"); });
+  document.getElementById("backBtn").addEventListener("click", () => { window.location.href = "stage1_metro.html"; });
+  document.getElementById("nextBtn").addEventListener("click", () => { const photo = document.getElementById("photoDesc").value.trim(); const ti = document.querySelector('input[name="titanium"]:checked')?.value; if (!photo || !ti) { alert("⚠️ Complete all tasks first."); return; } saveData(); window.location.href = "stage3_alley.html"; });
+  loadData();
+</script>
+</body>
+</html>

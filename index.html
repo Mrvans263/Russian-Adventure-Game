@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>RED STAR ORBIT · Soviet Space Race · Moscow Walking Adventure</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0c12;
+      font-family: 'Courier New', 'Fira Code', monospace;
+      min-height: 100vh;
+      color: #e0e0e0;
+    }
+
+    /* ========== EPIC START OVERLAY ========== */
+    .start-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, #05070c, #000000);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 1.2s ease;
+    }
+
+    .start-card {
+      text-align: center;
+      border-left: 4px solid #b8581c;
+      padding-left: 2.5rem;
+      animation: pulseGlow 2s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% { text-shadow: 0 0 2px #b8581c; opacity: 0.9; }
+      100% { text-shadow: 0 0 15px #b8581c; opacity: 1; }
+    }
+
+    .start-card .title {
+      font-size: 3.2rem;
+      font-weight: 400;
+      letter-spacing: 10px;
+      color: #e0d5b9;
+      text-transform: uppercase;
+    }
+
+    .start-card .sub {
+      color: #b8581c;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+    }
+
+    .start-card .click {
+      margin-top: 2.5rem;
+      font-size: 0.7rem;
+      color: #6a6a6a;
+      border: 1px solid #3a3a3a;
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+    }
+
+    /* ========== MAIN APP ========== */
+    .app {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.8rem;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .app.visible {
+      opacity: 1;
+    }
+
+    /* header */
+    .hero {
+      border-bottom: 2px solid #b8581c;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
+
+    .hero h1 {
+      font-size: 1.7rem;
+      font-weight: 400;
+      letter-spacing: 5px;
+      color: #e0d5b9;
+    }
+
+    .hero .tag {
+      font-size: 0.7rem;
+      color: #b8581c;
+    }
+
+    /* ========== ROUTE MAP WITH DESCRIPTIONS ========== */
+    .route-atlas {
+      background: #0d0f16;
+      border: 1px solid #2a2a2a;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .atlas-header {
+      background: #11131c;
+      padding: 1rem;
+      border-bottom: 1px solid #2a2a2a;
+      font-size: 0.75rem;
+      color: #b8581c;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .journey-container {
+      padding: 1.8rem;
+    }
+
+    /* the horizontal journey with smooth transitions */
+    .path-steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .step-card {
+      flex: 1;
+      min-width: 160px;
+      background: #0a0c12;
+      border: 1px solid #2a2a2a;
+      padding: 1rem;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .step-card:hover {
+      transform: translateY(-6px);
+      border-color: #b8581c;
+      box-shadow: 0 8px 18px rgba(184, 88, 28, 0.2);
+      background: #11131c;
+    }
+
+    .step-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      transition: transform 0.2s;
+    }
+
+    .step-card:hover .step-icon {
+      transform: scale(1.05);
+    }
+
+    .step-name {
+      font-weight: bold;
+      font-size: 0.8rem;
+      color: #e0d5b9;
+      margin-bottom: 0.3rem;
+    }
+
+    .step-distance {
+      font-size: 0.6rem;
+      color: #6aaa5a;
+    }
+
+    .step-desc {
+      font-size: 0.65rem;
+      color: #9a9a8a;
+      margin-top: 0.5rem;
+      line-height: 1.4;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    .step-card:hover .step-desc {
+      opacity: 1;
+      color: #cfcfcf;
+    }
+
+    /* arrow connectors between steps */
+    .connector {
+      font-size: 1.2rem;
+      color: #b8581c;
+      align-self: center;
+      padding: 0 0.2rem;
+    }
+
+    .journey-summary {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px dashed #2a2a2a;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #a0a080;
+      background: #05070c;
+      padding: 1rem;
+      letter-spacing: 1px;
+    }
+
+    /* ========== DETAILED DESCRIPTION CARD ========== */
+    .detail-card {
+      background: #0d0f16;
+      border-left: 4px solid #b8581c;
+      margin: 1.5rem 0;
+      padding: 1.2rem;
+      transition: all 0.2s;
+    }
+
+    .detail-title {
+      font-size: 0.8rem;
+      color: #b8581c;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .detail-text {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #cfcfcf;
+    }
+
+    /* buttons & misc */
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: none;
+      border: 1px solid #b8581c;
+      padding: 0.7rem 1.5rem;
+      font-family: monospace;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      color: #e0d5b9;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background: #b8581c;
+      color: #05070c;
+    }
+
+    .btn-green {
+      border-color: #5a9a5a;
+    }
+    .btn-green:hover {
+      background: #5a9a5a;
+    }
+
+    .reg-block {
+      background: #0d0f16;
+      border: 1px solid #2a2a2a;
+      padding: 1.2rem;
+      margin: 1.5rem 0;
+    }
+    .reg-block input {
+      width: 100%;
+      background: #05070c;
+      border: 1px solid #2a2a2a;
+      padding: 0.6rem;
+      margin: 0.5rem 0;
+      color: #e0d5b9;
+      font-family: monospace;
+    }
+    .music-status {
+      background: #05070c;
+      border: 1px solid #2a2a2a;
+      padding: 0.5rem;
+      text-align: center;
+      font-size: 0.7rem;
+      margin: 1rem 0;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.6rem;
+      color: #5a5a5a;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #1a1c24;
+    }
+    .coord-ref {
+      font-size: 0.65rem;
+      background: #05070c;
+      padding: 0.6rem;
+      margin-top: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- OVERLAY -->
+<div id="startOverlay" class="start-overlay">
+  <div class="start-card">
+    <div class="title">RED STAR ORBIT</div>
+    <div class="sub">SOVIET SPACE RACE · WALKING INVESTIGATION</div>
+    <div class="click">[ CLICK ANYWHERE TO LAUNCH ]</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="app">
+  <div class="hero">
+    <h1>✦ RED STAR ORBIT</h1>
+    <div class="tag">FIELD REPORT // MOSCOW 1964</div>
+  </div>
+
+  <!-- INTERACTIVE ROUTE MAP WITH DESCRIPTIONS -->
+  <div class="route-atlas">
+    <div class="atlas-header">🗺️ THE COSMONAUT TRAIL · 5 SACRED STATIONS</div>
+    <div class="journey-container">
+      <div class="path-steps" id="stepsContainer">
+        <!-- dynamic via JS but we'll generate static for reliability -->
+      </div>
+      <div class="journey-summary" id="journeySummary">
+        ✦ A 2.8 km pilgrimage through Soviet space mythology ✦
+      </div>
+    </div>
+  </div>
+
+  <!-- DETAILED LOCATION DESCRIPTION (changes on hover) -->
+  <div class="detail-card" id="detailBox">
+    <div class="detail-title">📍 CURRENT FOCUS</div>
+    <div class="detail-text" id="detailText">Hover over any station above to reveal its secrets...</div>
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="button-group">
+    <button id="openYandexBtn" class="btn btn-green">🗺️ OPEN INTERACTIVE MAP (Yandex)</button>
+  </div>
+
+  <!-- COORDINATES -->
+  <div class="coord-ref">
+    📍 Yandex coordinates — VDNKh Metro: 55.8257,37.6385 | Museum: 55.8229,37.6396 | Alley: 55.8238,37.6412 | Pavilion: 55.8289,37.6372 | De Gaulle: 55.8280,37.6325
+  </div>
+
+  <!-- MISSION BRIEF -->
+  <div class="detail-card" style="border-left-color: #5a9a5a;">
+    <div class="detail-title">📡 MISSION BRIEFING</div>
+    <div class="detail-text">You are a historical detective. No search engines — only your eyes, your feet, and critical thinking. At each station you will: 📸 simulate a photo, ❓ answer a quiz, 🤔 write a reflection, and at the end 🎥 record a 60s video report as a foreign correspondent in 1964.</div>
+  </div>
+
+  <!-- REGISTRATION -->
+  <div class="reg-block">
+    <div style="font-size:0.7rem; letter-spacing:2px;">👥 REGISTER YOUR SQUAD</div>
+    <input type="text" id="groupName" placeholder="GROUP NAME (e.g., Sputnik Vanguard)">
+    <input type="text" id="members" placeholder="MEMBERS (comma separated)">
+  </div>
+
+  <div class="music-status" id="musicStatus">🎧 AUDIO: STANDING BY — CLICK TO ACTIVATE</div>
+
+  <button id="launchBtn" class="btn" style="width:100%; padding:0.9rem;">🚀 LAUNCH THE ADVENTURE → STAGE 1</button>
+
+  <footer>🎵 Entrance music: "Time, Forward!" (Sviridov) · place /songs/intro.mp3<br>All answers save locally. After 5 stages, export report to your teacher.</footer>
+</div>
+
+<script>
+  // ========== STATIONS DATA (with poetic descriptions) ==========
+  const stations = [
+    {
+      icon: "🚇",
+      name: "VDNKh METRO",
+      distance: "Start",
+      fullDesc: "The subterranean palace of stained glass and marble. Opened in 1958, its ceilings depict cosmonauts and stars — a propaganda dream to show that the metro was 'the people's paradise'. Your first task: decode the celestial motifs.",
+      taskHint: "📸 PHOTO: Find the stained-glass space panels. ❓ QUIZ: Identify the architectural style. 🤔 REFLECTION: Why build palaces for the people while housing was scarce?"
+    },
+    {
+      icon: "🚀",
+      name: "MUSEUM OF COSMONAUTICS",
+      distance: "+0.4 km",
+      fullDesc: "The giant titanium obelisk stabs the sky — a geopolitical flex. The statue of Tsiolkovsky gazes upward, dreaming of stars. Here you'll question why the Soviets spent fortunes on titanium while citizens queued for bread.",
+      taskHint: "📸 PHOTO: The reflective titanium surface. ❓ QUIZ: Why titanium? 🤔 REFLECTION: What does Tsiolkovsky's posture tell us about the scientist's role?"
+    },
+    {
+      icon: "🌌",
+      name: "COSMONAUTS ALLEY",
+      distance: "+0.7 km",
+      fullDesc: "Bronze busts of heroes: Gagarin, Tereshkova, Korolev. Compare their faces — is the first woman in space a 'soft' figure or a hardened soldier? And why does the Chief Designer look down, burdened, while the cosmonauts look up?",
+      taskHint: "👩‍🚀 Tereshkova vs Gagarin: equal or feminized? 🛠️ Korolev's burden: why hidden? ✊ Lenin's finger: up or forward? 🐕 Laika: tool or comrade?"
+    },
+    {
+      icon: "🏛️",
+      name: "PAVILION №1",
+      distance: "+1.2 km",
+      fullDesc: "The golden spire with a red star — Stalinist grandeur at its peak. This pavilion was meant to intimidate and inspire. You'll decide: does it feel welcoming or like a monument to absolute power?",
+      taskHint: "⭐ What symbol sits at the tip? 🏛️ Does the scale feel welcoming or intimidating? Why would the state build such massive structures?"
+    },
+    {
+      icon: "🇫🇷",
+      name: "CHARLES DE GAULLE SQ",
+      distance: "+1.9 km",
+      fullDesc: "A French general in Moscow? De Gaulle visited the USSR in 1966, a symbol of détente. This final stop asks you to reflect on diplomacy, memory, and how nations choose what to celebrate — and what to forget.",
+      taskHint: "🤝 Why a monument to a Western leader? 🌍 How does your country display triumphs? 🎥 Record your 1964 broadcast: complete the phrase 'this monument is actually about...'"
+    }
+  ];
+
+  // ========== BUILD INTERACTIVE STEPS ==========
+  const container = document.getElementById('stepsContainer');
+  const detailTitleEl = document.querySelector('#detailBox .detail-title');
+  const detailTextEl = document.getElementById('detailText');
+
+  function renderSteps() {
+    let html = '';
+    stations.forEach((station, idx) => {
+      html += `
+        <div class="step-card" data-index="${idx}">
+          <div class="step-icon">${station.icon}</div>
+          <div class="step-name">${station.name}</div>
+          <div class="step-distance">${station.distance}</div>
+          <div class="step-desc">${station.fullDesc.substring(0, 70)}...</div>
+        </div>
+      `;
+      if (idx < stations.length - 1) {
+        html += `<div class="connector">→</div>`;
+      }
+    });
+    container.innerHTML = html;
+
+    // attach hover events
+    document.querySelectorAll('.step-card').forEach(card => {
+      const idx = parseInt(card.getAttribute('data-index'));
+      card.addEventListener('mouseenter', () => {
+        const st = stations[idx];
+        detailTextEl.innerHTML = `<strong>${st.name}</strong><br><br>${st.fullDesc}<br><br><span style="color:#b8581c;">🎯 YOUR TASKS HERE:</span><br>${st.taskHint}`;
+        detailTitleEl.innerHTML = `📍 ${st.name}`;
+      });
+    });
+
+    // default: show first station info
+    if (stations.length) {
+      detailTextEl.innerHTML = `<strong>${stations[0].name}</strong><br><br>${stations[0].fullDesc}<br><br><span style="color:#b8581c;">🎯 YOUR TASKS HERE:</span><br>${stations[0].taskHint}`;
+      detailTitleEl.innerHTML = `📍 ${stations[0].name}`;
+    }
+  }
+
+  renderSteps();
+
+  // ========== YANDEX MAPS (opens in new tab) ==========
+  const yandexUrl = 'https://yandex.ru/maps/?ll=37.6385,55.8257&z=15&l=map&pt=37.6385,55.8257,pm2rdm~37.6396,55.8229,pm2rdm~37.6412,55.8238,pm2rdm~37.6372,55.8289,pm2rdm~37.6325,55.8280,pm2rdm';
+  document.getElementById('openYandexBtn').addEventListener('click', () => {
+    window.open(yandexUrl, '_blank');
+  });
+
+  // ========== AUDIO ON USER INTERACTION ==========
+  let audioStarted = false;
+  let currentAudio = null;
+  function startMusic() {
+    if (audioStarted) return;
+    try {
+      const audio = new Audio('songs/intro.mp3');
+      audio.loop = true;
+      audio.volume = 0.35;
+      audio.play().then(() => {
+        audioStarted = true;
+        currentAudio = audio;
+        document.getElementById('musicStatus').innerHTML = '🎧 TIME, FORWARD! — PLAYING';
+      }).catch(() => {
+        document.getElementById('musicStatus').innerHTML = '⚠️ Click to enable audio (place /songs/intro.mp3)';
+      });
+    } catch(e) {
+      document.getElementById('musicStatus').innerHTML = '⚠️ Audio file missing: /songs/intro.mp3';
+    }
+  }
+
+  // overlay click
+  const overlay = document.getElementById('startOverlay');
+  const appDiv = document.getElementById('app');
+  overlay.addEventListener('click', () => {
+    startMusic();
+    overlay.style.opacity = '0';
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 1000);
+    appDiv.classList.add('visible');
+  });
+
+  // global click to unlock audio
+  document.body.addEventListener('click', function initGlobal() {
+    if (overlay.style.display === 'none' && !audioStarted) startMusic();
+  });
+
+  // ========== REGISTRATION & LAUNCH ==========
+  document.getElementById('launchBtn').addEventListener('click', () => {
+    const group = document.getElementById('groupName').value.trim();
+    if (!group) {
+      alert('⚠️ Enter your GROUP NAME before launching the mission.');
+      return;
+    }
+    const groupData = {
+      groupName: group,
+      members: document.getElementById('members').value.trim(),
+      timestamp: new Date().toISOString()
+    };
+    localStorage.setItem('RSO_Group', JSON.stringify(groupData));
+    alert(`✅ Group "${group}" registered. Proceeding to Stage 1: VDNKh Metro Station.`);
+    window.location.href = 'stage1_metro.html';
+  });
+
+  // load previous group data if exists
+  const saved = localStorage.getItem('RSO_Group');
+  if (saved) {
+    try {
+      const g = JSON.parse(saved);
+      document.getElementById('groupName').value = g.groupName || '';
+      document.getElementById('members').value = g.members || '';
+    } catch(e) {}
+  }
+
+  // small animated hint: journey summary
+  const summaryDiv = document.getElementById('journeySummary');
+  const journeyTexts = [
+    "✦ A 2.8 km pilgrimage through Soviet space mythology ✦",
+    "🚶 You'll walk from VDNKh Metro → Museum → Cosmonauts Alley → Pavilion → Charles de Gaulle",
+    "🎧 Each stage has its own authentic Soviet soundtrack",
+    "🔍 No Google — only your eyes, the monuments, and critical thinking"
+  ];
+  let textIdx = 0;
+  setInterval(() => {
+    if (summaryDiv) {
+      textIdx = (textIdx + 1) % journeyTexts.length;
+      summaryDiv.style.opacity = '0';
+      setTimeout(() => {
+        summaryDiv.innerHTML = journeyTexts[textIdx];
+        summaryDiv.style.opacity = '1';
+      }, 200);
+    }
+  }, 5000);
+</script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RED STAR ORBIT · Submit Report</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0c12;
+      font-family: 'Courier New', monospace;
+      color: #cfcfcf;
+      padding: 2rem;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 {
+      border-bottom: 2px solid #b8581c;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      font-weight: 400;
+    }
+    .card {
+      background: #0d0f16;
+      border: 1px solid #2a2a2a;
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background: #11131c;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid #2a2a2a;
+      font-weight: bold;
+    }
+    .card-body { padding: 1.5rem; }
+    .status {
+      background: #1a2a1a;
+      border-left: 3px solid #6aaa5a;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      font-size: 0.8rem;
+    }
+    .status.incomplete {
+      background: #2a1a1a;
+      border-left-color: #b8581c;
+    }
+    textarea {
+      width: 100%;
+      background: #05070c;
+      border: 1px solid #2a2a2a;
+      padding: 0.8rem;
+      color: #e0d5b9;
+      font-family: monospace;
+      font-size: 0.7rem;
+      margin: 1rem 0;
+      resize: vertical;
+    }
+    button {
+      background: none;
+      border: 1px solid #b8581c;
+      padding: 0.8rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: #e0d5b9;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+    button:hover {
+      background: #b8581c;
+      color: #05070c;
+    }
+    .btn-green {
+      border-color: #5a9a5a;
+    }
+    .btn-green:hover {
+      background: #5a9a5a;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.6rem;
+      color: #5a5a5a;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #1a1c24;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>✦ MISSION COMPLETE · SUBMIT REPORT</h1>
+
+  <div class="card">
+    <div class="card-header">📋 STEP 1: CHECK COMPLETION</div>
+    <div class="card-body">
+      <div id="statusBox" class="status">Loading...</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">📧 STEP 2: COPY & SUBMIT</div>
+    <div class="card-body">
+      <button id="generateBtn" class="btn-green">📄 GENERATE REPORT</button>
+      <textarea id="reportText" rows="15" readonly placeholder="Click 'GENERATE REPORT' to see your answers..."></textarea>
+      <button id="copyBtn">📋 COPY TO CLIPBOARD</button>
+      <button id="restartBtn">⟳ START OVER</button>
+      <p style="font-size:0.7rem; margin-top:1rem; color:#8a8a6a;">
+        After copying, paste into an email to your teacher or into Google Forms.
+      </p>
+    </div>
+  </div>
+
+  <footer>RED STAR ORBIT · Soviet Space Race Investigation</footer>
+</div>
+
+<script>
+  // Helper: get data from localStorage
+  function getStage(num) {
+    try {
+      const data = localStorage.getItem('RSO_Stage' + num);
+      return data ? JSON.parse(data) : null;
+    } catch(e) { return null; }
+  }
+
+  function getGroup() {
+    try {
+      const data = localStorage.getItem('RSO_Group');
+      return data ? JSON.parse(data) : { groupName: 'Not provided', members: 'Not provided' };
+    } catch(e) { return { groupName: 'Not provided', members: 'Not provided' }; }
+  }
+
+  function isStageComplete(num) {
+    return localStorage.getItem('RSO_Stage' + num + '_Complete') === 'true';
+  }
+
+  // Generate report text
+  function generateReport() {
+    const group = getGroup();
+    const s1 = getStage(1) || {};
+    const s2 = getStage(2) || {};
+    const s3 = getStage(3) || {};
+    const s4 = getStage(4) || {};
+    const s5 = getStage(5) || {};
+
+    return `
+========================================
+   RED STAR ORBIT · MISSION REPORT
+========================================
+
+👥 GROUP INFORMATION
+Group Name: ${group.groupName}
+Members: ${group.members}
+Submitted: ${new Date().toLocaleString()}
+
+========================================
+📍 STAGE 1 · VDNKh Metro Station
+========================================
+Photo observation: ${s1.photoDesc || 'Not answered'}
+Architectural style: ${s1.archStyle || 'Not answered'}
+Reflection: ${s1.reflection || 'Not answered'}
+
+========================================
+🚀 STAGE 2 · Museum of Cosmonautics
+========================================
+Titanium obelisk observation: ${s2.photoDesc || 'Not answered'}
+Why titanium? (quiz): ${s2.titanium || 'Not answered'}
+Tsiolkovsky reflection: ${s2.reflection || 'Not answered'}
+
+========================================
+🌌 STAGE 3 · Cosmonauts Alley
+========================================
+Tereshkova vs Gagarin: ${s3.gender || 'Not answered'}
+Korolev's burden: ${s3.korolev || 'Not answered'}
+Lenin's vector: ${s3.lenin || 'Not answered'}
+Laika analysis: ${s3.laika || 'Not answered'}
+
+========================================
+🏛️ STAGE 4 · Pavilion №1
+========================================
+Spire symbol: ${s4.symbol || 'Not answered'}
+Architecture reflection: ${s4.reflection || 'Not answered'}
+
+========================================
+🇫🇷 STAGE 5 · Charles de Gaulle Square
+========================================
+Diplomacy analysis: ${s5.diplomacy || 'Not answered'}
+Final reflection: ${s5.finalReflect || 'Not answered'}
+Video link: ${s5.videoLink || 'Not answered'}
+
+========================================
+END OF REPORT
+========================================
+`;
+  }
+
+  // Update completion status
+  function updateStatus() {
+    let allComplete = true;
+    let html = '📊 <strong>COMPLETION STATUS</strong><br>';
+    const names = ['Stage 1 · Metro', 'Stage 2 · Museum', 'Stage 3 · Alley', 'Stage 4 · Pavilion', 'Stage 5 · De Gaulle'];
+    
+    for (let i = 1; i <= 5; i++) {
+      const complete = isStageComplete(i);
+      allComplete = allComplete && complete;
+      html += `<span style="color: ${complete ? '#6aaa5a' : '#b8581c'};">${complete ? '✅' : '❌'}</span> ${names[i]}<br>`;
+    }
+    
+    if (allComplete) {
+      html += '<br>✅ All stages complete! You can generate your report.';
+    } else {
+      html += '<br>⚠️ Please complete all 5 stages before submitting.';
+    }
+    
+    const statusBox = document.getElementById('statusBox');
+    statusBox.innerHTML = html;
+    statusBox.className = allComplete ? 'status' : 'status incomplete';
+    return allComplete;
+  }
+
+  // Generate and display report
+  document.getElementById('generateBtn').addEventListener('click', function() {
+    const allComplete = updateStatus();
+    if (!allComplete) {
+      alert('⚠️ Please complete all 5 stages before generating the report.');
+      return;
+    }
+    const report = generateReport();
+    document.getElementById('reportText').value = report;
+  });
+
+  // Copy to clipboard
+  document.getElementById('copyBtn').addEventListener('click', function() {
+    const textarea = document.getElementById('reportText');
+    if (!textarea.value) {
+      alert('Please click "GENERATE REPORT" first.');
+      return;
+    }
+    textarea.select();
+    navigator.clipboard.writeText(textarea.value).then(function() {
+      alert('✅ Report copied to clipboard! Paste into email or Google Form.');
+    }).catch(function() {
+      alert('❌ Could not copy. Select the text manually and press Ctrl+C.');
+    });
+  });
+
+  // Restart
+  document.getElementById('restartBtn').addEventListener('click', function() {
+    if (confirm('⚠️ WARNING: This will erase ALL your answers. Continue?')) {
+      for (let i = 1; i <= 5; i++) {
+        localStorage.removeItem('RSO_Stage' + i);
+        localStorage.removeItem('RSO_Stage' + i + '_Complete');
+      }
+      localStorage.removeItem('RSO_Group');
+      localStorage.removeItem('RSO_Entrance');
+      window.location.href = 'index.html';
+    }
+  });
+
+  // Load status on page load
+  updateStatus();
+</script>
+</body>
+</html>

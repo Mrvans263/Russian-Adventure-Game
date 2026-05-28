@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>RED STAR ORBIT · STAGE 5 · Charles de Gaulle Square</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0c12; font-family: 'Courier New', monospace; color: #cfcfcf; padding: 2rem 1rem; }
+    .stage-container { max-width: 1000px; margin: 0 auto; }
+    .stage-header { border-bottom: 2px solid #b8581c; padding-bottom: 1rem; margin-bottom: 2rem; display: flex; justify-content: space-between; }
+    .stage-header h1 { font-size: 1.3rem; font-weight: 400; color: #e0d5b9; }
+    .counter { font-size: 0.7rem; color: #b8581c; }
+    .location-card { background: #0d0f16; border: 1px solid #2a2a2a; margin-bottom: 2rem; }
+    .location-title { background: #11131c; padding: 1rem; border-bottom: 1px solid #2a2a2a; }
+    .location-content { padding: 1.5rem; }
+    .task-block { border-left: 3px solid #b8581c; background: #0a0c12; padding: 1rem; margin-bottom: 1.5rem; }
+    .task-label { font-size: 0.7rem; color: #b8581c; text-transform: uppercase; margin-bottom: 0.5rem; }
+    textarea, input { width: 100%; background: #05070c; border: 1px solid #2a2a2a; padding: 0.7rem; color: #e0d5b9; font-family: monospace; }
+    .music-status { background: #05070c; border: 1px solid #2a2a2a; padding: 0.6rem; text-align: center; font-size: 0.7rem; margin-bottom: 1.5rem; }
+    .btn { background: none; border: 1px solid #b8581c; padding: 0.8rem; font-family: monospace; font-size: 0.8rem; color: #e0d5b9; cursor: pointer; width: 100%; margin-top: 0.5rem; }
+    .btn:hover { background: #b8581c; color: #05070c; }
+    .nav-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
+    .nav-buttons .btn { flex: 1; margin-top: 0; }
+    footer { border-top: 1px solid #1a1c24; margin-top: 2rem; padding-top: 1rem; text-align: center; font-size: 0.6rem; }
+  </style>
+</head>
+<body>
+<div class="stage-container">
+  <div class="stage-header"><h1>✦ STAGE 05 · CHARLES DE GAULLE SQUARE</h1><div class="counter">LOCATION 5/5</div></div>
+  <div class="music-status" id="musicStatus">🎧 CLICK ANYWHERE TO START MUSIC</div>
+  <div class="location-card">
+    <div class="location-title">📍 Square near French Embassy · Diplomatic Memory</div>
+    <div class="location-content">
+      <div class="task-block"><div class="task-label">🤝 REFLECTION · DIPLOMACY</div><div class="task-question">Why does Moscow have a monument to a Western leader? What does this reveal about Cold War diplomacy and space cooperation?</div><textarea id="diplomacy" rows="3" placeholder="Your analysis..."></textarea></div>
+      <div class="task-block"><div class="task-label">🌍 FINAL REFLECTION</div><div class="task-question">How does your home country display its triumphs compared to the USSR? If your country built a monument to a foreign leader, what would it signify?</div><textarea id="finalReflect" rows="4" placeholder="Your response..."></textarea></div>
+      <div class="task-block"><div class="task-label">🎥 VIDEO REPORT (1964 BROADCAST)</div><div class="task-question">Record 60 seconds as a foreign correspondent. Complete: "This monument is not just about science — it is actually about..." Paste link or describe.</div><input type="text" id="videoLink" placeholder="YouTube link or 'video recorded'"></div>
+      <button id="saveBtn" class="btn">💾 SAVE PROGRESS</button>
+      <div class="nav-buttons"><button id="backBtn" class="btn">◀ PREVIOUS</button><button id="nextBtn" class="btn">VIEW FINAL REPORT ▶</button></div>
+    </div>
+  </div>
+  <footer>🎵 Music: "I Love You, Life" · /songs/stage5_degualle.mp3</footer>
+</div>
+<script>
+  let audioStarted = false;
+  function startMusic() { if (audioStarted) return; try { const audio = new Audio("songs/stage5_degualle.mp3"); audio.loop = true; audio.volume = 0.35; audio.play().then(() => { audioStarted = true; document.getElementById("musicStatus").innerHTML = "🎧 I LOVE YOU, LIFE — PLAYING"; }); } catch(e) { document.getElementById("musicStatus").innerHTML = "⚠️ AUDIO FILE MISSING"; } }
+  document.body.addEventListener("click", function init() { startMusic(); document.body.removeEventListener("click", init); });
+  function saveData() { localStorage.setItem("RSO_Stage5", JSON.stringify({ diplomacy: document.getElementById("diplomacy").value, finalReflect: document.getElementById("finalReflect").value, videoLink: document.getElementById("videoLink").value })); localStorage.setItem("RSO_Stage5_Complete", "true"); }
+  function loadData() { const saved = localStorage.getItem("RSO_Stage5"); if (saved) { const data = JSON.parse(saved); document.getElementById("diplomacy").value = data.diplomacy || ""; document.getElementById("finalReflect").value = data.finalReflect || ""; document.getElementById("videoLink").value = data.videoLink || ""; } }
+  ["diplomacy","finalReflect","videoLink"].forEach(id => { document.getElementById(id).addEventListener("input", saveData); });
+  document.getElementById("saveBtn").addEventListener("click", () => { saveData(); alert("✅ Saved"); });
+  document.getElementById("backBtn").addEventListener("click", () => { window.location.href = "stage4_pavilion.html"; });
+  document.getElementById("nextBtn").addEventListener("click", () => { const d = document.getElementById("diplomacy").value.trim(); if (!d) { alert("⚠️ Complete all tasks."); return; } saveData(); window.location.href = "exit.html"; });
+  loadData();
+</script>
+</body>
+</html>
