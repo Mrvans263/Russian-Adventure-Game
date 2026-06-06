@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RED STAR ORBIT · Submit Report</title>
+  <title>RED STAR ORBIT · Submit Final Report</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -12,7 +12,7 @@
       color: #cfcfcf;
       padding: 2rem;
     }
-    .container { max-width: 900px; margin: 0 auto; }
+    .container { max-width: 1000px; margin: 0 auto; }
     h1 {
       border-bottom: 2px solid #b8581c;
       padding-bottom: 0.5rem;
@@ -83,11 +83,20 @@
       padding-top: 1rem;
       border-top: 1px solid #1a1c24;
     }
+    .score-badge {
+      display: inline-block;
+      background: #b8581c;
+      color: #05070c;
+      font-size: 0.7rem;
+      padding: 0.1rem 0.5rem;
+      border-radius: 10px;
+      margin-left: 0.5rem;
+    }
   </style>
 </head>
 <body>
 <div class="container">
-  <h1>✦ MISSION COMPLETE · SUBMIT REPORT</h1>
+  <h1>✦ MISSION COMPLETE · SUBMIT FINAL REPORT</h1>
 
   <div class="card">
     <div class="card-header">📋 STEP 1: CHECK COMPLETION</div>
@@ -97,23 +106,23 @@
   </div>
 
   <div class="card">
-    <div class="card-header">📧 STEP 2: COPY & SUBMIT</div>
+    <div class="card-header">📧 STEP 2: COPY & SUBMIT TO TEACHER</div>
     <div class="card-body">
-      <button id="generateBtn" class="btn-green">📄 GENERATE REPORT</button>
-      <textarea id="reportText" rows="15" readonly placeholder="Click 'GENERATE REPORT' to see your answers..."></textarea>
+      <button id="generateBtn" class="btn-green">📄 GENERATE FULL REPORT</button>
+      <textarea id="reportText" rows="18" readonly placeholder="Click 'GENERATE FULL REPORT' to see your answers..."></textarea>
       <button id="copyBtn">📋 COPY TO CLIPBOARD</button>
-      <button id="restartBtn">⟳ START OVER</button>
+      <button id="restartBtn">⟳ START OVER (ERASE ALL)</button>
       <p style="font-size:0.7rem; margin-top:1rem; color:#8a8a6a;">
-        After copying, paste into an email to your teacher or into Google Forms.
+        After copying, paste into an email to your teacher or into Google Forms / Word document.
       </p>
     </div>
   </div>
 
-  <footer>RED STAR ORBIT · Soviet Space Race Investigation</footer>
+  <footer>RED STAR ORBIT · Soviet Moscow Historical Quest</footer>
 </div>
 
 <script>
-  // Helper: get data from localStorage
+  // Helper: get data from localStorage (new format)
   function getStage(num) {
     try {
       const data = localStorage.getItem('RSO_Stage' + num);
@@ -121,70 +130,140 @@
     } catch(e) { return null; }
   }
 
-  function getGroup() {
-    try {
-      const data = localStorage.getItem('RSO_Group');
-      return data ? JSON.parse(data) : { groupName: 'Not provided', members: 'Not provided' };
-    } catch(e) { return { groupName: 'Not provided', members: 'Not provided' }; }
+  function getQuizScore(num) {
+    const score = localStorage.getItem('RSO_Stage' + num + '_QuizScore');
+    return score !== null ? score : 'Not recorded';
   }
 
   function isStageComplete(num) {
     return localStorage.getItem('RSO_Stage' + num + '_Complete') === 'true';
   }
 
-  // Generate report text
+  // Generate full report matching new Stage 1-5 format
   function generateReport() {
-    const group = getGroup();
     const s1 = getStage(1) || {};
     const s2 = getStage(2) || {};
     const s3 = getStage(3) || {};
     const s4 = getStage(4) || {};
     const s5 = getStage(5) || {};
 
+    const score1 = getQuizScore(1);
+    const score2 = getQuizScore(2);
+    const score3 = getQuizScore(3);
+    const score4 = getQuizScore(4);
+    const score5 = getQuizScore(5);
+
     return `
 ========================================
-   RED STAR ORBIT · MISSION REPORT
+   RED STAR ORBIT · FINAL MISSION REPORT
 ========================================
 
-👥 GROUP INFORMATION
-Group Name: ${group.groupName}
-Members: ${group.members}
 Submitted: ${new Date().toLocaleString()}
 
 ========================================
-📍 STAGE 1 · VDNKh Metro Station
+📍 STAGE 1 · VDNKh METRO STATION
+Quiz Score: ${score1}/4
 ========================================
-Photo observation: ${s1.photoDesc || 'Not answered'}
-Architectural style: ${s1.archStyle || 'Not answered'}
-Reflection: ${s1.reflection || 'Not answered'}
+📸 Photo (stained glass motifs): 
+${s1.photoDesc || 'Not answered'}
+
+❓ Quiz answers:
+  - Architectural style: ${s1.archStyle || 'Not answered'}
+  - Year opened: ${s1.openYear || 'Not answered'}
+  - Stained glass motifs: ${s1.motifs || 'Not answered'}
+  - Leader when opened: ${s1.leader || 'Not answered'}
+
+🤔 Reflection (palace for the people): 
+${s1.reflection || 'Not answered'}
+
+🏛️ Historical question (compare to Stalinist stations): 
+${s1.historicalAnswer || 'Not answered'}
 
 ========================================
-🚀 STAGE 2 · Museum of Cosmonautics
+🚀 STAGE 2 · MUSEUM OF COSMONAUTICS
+Quiz Score: ${score2}/4
 ========================================
-Titanium obelisk observation: ${s2.photoDesc || 'Not answered'}
-Why titanium? (quiz): ${s2.titanium || 'Not answered'}
-Tsiolkovsky reflection: ${s2.reflection || 'Not answered'}
+📸 Photo (titanium obelisk observation): 
+${s2.photoDesc || 'Not answered'}
+
+❓ Quiz answers:
+  - Why titanium? ${s2.qTitanium || 'Not answered'}
+  - First satellite: ${s2.qSatellite || 'Not answered'}
+  - First human in space: ${s2.qCosmonaut || 'Not answered'}
+  - Year of Gagarin's flight: ${s2.qYear || 'Not answered'}
+
+🤔 Reflection (Tsiolkovsky statue): 
+${s2.reflection || 'Not answered'}
+
+🏛️ Historical question (space vs consumer goods): 
+${s2.historicalAnswer || 'Not answered'}
 
 ========================================
-🌌 STAGE 3 · Cosmonauts Alley
+🌌 STAGE 3 · COSMONAUTS ALLEY
+Quiz Score: ${score3}/4
 ========================================
-Tereshkova vs Gagarin: ${s3.gender || 'Not answered'}
-Korolev's burden: ${s3.korolev || 'Not answered'}
-Lenin's vector: ${s3.lenin || 'Not answered'}
-Laika analysis: ${s3.laika || 'Not answered'}
+📸 Photo (bronze bust): 
+${s3.photoDesc || 'Not answered'}
+
+❓ Quiz answers:
+  - Gagarin's achievement: ${s3.qGagarin || 'Not answered'}
+  - Tereshkova's significance: ${s3.qTereshkova || 'Not answered'}
+  - Korolev's secret identity: ${s3.qKorolev || 'Not answered'}
+  - Laika's fate: ${s3.qLaika || 'Not answered'}
+
+🤔 Reflection (cosmonauts looking up vs Korolev looking down): 
+${s3.reflection || 'Not answered'}
+
+🏛️ Historical question (individual heroes vs collective society): 
+${s3.historicalAnswer || 'Not answered'}
 
 ========================================
-🏛️ STAGE 4 · Pavilion №1
+🏛️ STAGE 4 · PAVILION №1 (VDNKh Central Pavilion)
+Quiz Score: ${score4}/4
 ========================================
-Spire symbol: ${s4.symbol || 'Not answered'}
-Architecture reflection: ${s4.reflection || 'Not answered'}
+📸 Photo (golden spire symbol): 
+${s4.photoDesc || 'Not answered'}
+
+❓ Quiz answers:
+  - Year completed: ${s4.qYear || 'Not answered'}
+  - Symbol at spire tip: ${s4.qSymbol || 'Not answered'}
+  - Original purpose of VDNKh: ${s4.qPurpose || 'Not answered'}
+  - Architectural style: ${s4.qStyle || 'Not answered'}
+
+🤔 Reflection (welcoming vs intimidating / Stalinist scale): 
+${s4.reflection || 'Not answered'}
+
+🏛️ Historical question (architecture as political power): 
+${s4.historicalAnswer || 'Not answered'}
 
 ========================================
-🇫🇷 STAGE 5 · Charles de Gaulle Square
+🇫🇷 STAGE 5 · CHARLES DE GAULLE SQUARE
+Quiz Score: ${score5}/4
 ========================================
-Diplomacy analysis: ${s5.diplomacy || 'Not answered'}
-Final reflection: ${s5.finalReflect || 'Not answered'}
-Video link: ${s5.videoLink || 'Not answered'}
+📸 Photo (square sign / location): 
+${s5.photoDesc || 'Not answered'}
+
+❓ Quiz answers:
+  - Year of de Gaulle's visit: ${s5.qYear || 'Not answered'}
+  - France's NATO move (1966): ${s5.qNato || 'Not answered'}
+  - Soviet motivation: ${s5.qMotivation || 'Not answered'}
+  - Lesson about Cold War: ${s5.qLesson || 'Not answered'}
+
+🤔 Reflection (why Moscow honors a Western leader): 
+${s5.reflection || 'Not answered'}
+
+🏛️ Historical question (ideology vs pragmatism): 
+${s5.historicalAnswer || 'Not answered'}
+
+========================================
+📊 FINAL SUMMARY
+========================================
+Total Quiz Score (max 20): 
+Stage 1: ${score1}/4
+Stage 2: ${score2}/4
+Stage 3: ${score3}/4
+Stage 4: ${score4}/4
+Stage 5: ${score5}/4
 
 ========================================
 END OF REPORT
@@ -192,22 +271,47 @@ END OF REPORT
 `;
   }
 
-  // Update completion status
+  // Update completion status (checks all required fields for each stage)
+  function isStageFullyComplete(num) {
+    const complete = localStorage.getItem('RSO_Stage' + num + '_Complete');
+    if (complete !== 'true') return false;
+    
+    // Double-check by verifying data exists
+    const data = getStage(num);
+    if (!data) return false;
+    
+    switch(num) {
+      case 1:
+        return data.photoDesc && data.archStyle && data.openYear && data.motifs && data.leader && data.reflection && data.historicalAnswer;
+      case 2:
+        return data.photoDesc && data.qTitanium && data.qSatellite && data.qCosmonaut && data.qYear && data.reflection && data.historicalAnswer;
+      case 3:
+        return data.photoDesc && data.qGagarin && data.qTereshkova && data.qKorolev && data.qLaika && data.reflection && data.historicalAnswer;
+      case 4:
+        return data.photoDesc && data.qYear && data.qSymbol && data.qPurpose && data.qStyle && data.reflection && data.historicalAnswer;
+      case 5:
+        return data.photoDesc && data.qYear && data.qNato && data.qMotivation && data.qLesson && data.reflection && data.historicalAnswer;
+      default:
+        return false;
+    }
+  }
+
   function updateStatus() {
     let allComplete = true;
-    let html = '📊 <strong>COMPLETION STATUS</strong><br>';
-    const names = ['Stage 1 · Metro', 'Stage 2 · Museum', 'Stage 3 · Alley', 'Stage 4 · Pavilion', 'Stage 5 · De Gaulle'];
+    let html = '📊 <strong>COMPLETION STATUS</strong><br><br>';
+    const names = ['Stage 1 · VDNKh Metro', 'Stage 2 · Museum of Cosmonautics', 'Stage 3 · Cosmonauts Alley', 'Stage 4 · Pavilion №1', 'Stage 5 · Charles de Gaulle Square'];
     
     for (let i = 1; i <= 5; i++) {
-      const complete = isStageComplete(i);
+      const complete = isStageFullyComplete(i);
       allComplete = allComplete && complete;
-      html += `<span style="color: ${complete ? '#6aaa5a' : '#b8581c'};">${complete ? '✅' : '❌'}</span> ${names[i]}<br>`;
+      const score = getQuizScore(i);
+      html += `<span style="color: ${complete ? '#6aaa5a' : '#b8581c'};">${complete ? '✅' : '❌'}</span> ${names[i-1]} &nbsp; <span class="score-badge">Score: ${score}/4</span><br>`;
     }
     
     if (allComplete) {
-      html += '<br>✅ All stages complete! You can generate your report.';
+      html += '<br>✅ <strong>All stages complete!</strong> You can generate your final report.';
     } else {
-      html += '<br>⚠️ Please complete all 5 stages before submitting.';
+      html += '<br>⚠️ Please complete all 5 stages (all tasks in each stage) before submitting. Missing tasks are marked with ❌.';
     }
     
     const statusBox = document.getElementById('statusBox');
@@ -220,7 +324,7 @@ END OF REPORT
   document.getElementById('generateBtn').addEventListener('click', function() {
     const allComplete = updateStatus();
     if (!allComplete) {
-      alert('⚠️ Please complete all 5 stages before generating the report.');
+      alert('⚠️ Please complete all 5 stages (all tasks in each stage) before generating the report.\n\nCheck which stages have ❌ marks above.');
       return;
     }
     const report = generateReport();
@@ -231,26 +335,30 @@ END OF REPORT
   document.getElementById('copyBtn').addEventListener('click', function() {
     const textarea = document.getElementById('reportText');
     if (!textarea.value) {
-      alert('Please click "GENERATE REPORT" first.');
+      alert('Please click "GENERATE FULL REPORT" first.');
       return;
     }
     textarea.select();
     navigator.clipboard.writeText(textarea.value).then(function() {
-      alert('✅ Report copied to clipboard! Paste into email or Google Form.');
+      alert('✅ Report copied to clipboard! Paste into email or document for your teacher.');
     }).catch(function() {
       alert('❌ Could not copy. Select the text manually and press Ctrl+C.');
     });
   });
 
-  // Restart
+  // Restart (erase all data)
   document.getElementById('restartBtn').addEventListener('click', function() {
-    if (confirm('⚠️ WARNING: This will erase ALL your answers. Continue?')) {
+    if (confirm('⚠️ WARNING: This will erase ALL your answers from all 5 stages. This cannot be undone. Continue?')) {
       for (let i = 1; i <= 5; i++) {
         localStorage.removeItem('RSO_Stage' + i);
         localStorage.removeItem('RSO_Stage' + i + '_Complete');
+        localStorage.removeItem('RSO_Stage' + i + '_QuizScore');
+        localStorage.removeItem('RSO_TotalScore_Stage' + i);
       }
       localStorage.removeItem('RSO_Group');
       localStorage.removeItem('RSO_Entrance');
+      localStorage.removeItem('RSO_Stage3_CompletionCount');
+      alert('✅ All data erased. Redirecting to start page...');
       window.location.href = 'index.html';
     }
   });

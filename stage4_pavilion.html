@@ -3,53 +3,427 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>RED STAR ORBIT · STAGE 4 · Pavilion №1</title>
+  <title>RED STAR ORBIT · STAGE 4 · Pavilion №1 (Central Pavilion)</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0c12; font-family: 'Courier New', monospace; color: #cfcfcf; padding: 2rem 1rem; }
-    .stage-container { max-width: 1000px; margin: 0 auto; }
-    .stage-header { border-bottom: 2px solid #b8581c; padding-bottom: 1rem; margin-bottom: 2rem; display: flex; justify-content: space-between; }
-    .stage-header h1 { font-size: 1.3rem; font-weight: 400; color: #e0d5b9; }
+    body {
+      background: #0a0c12;
+      font-family: 'Courier New', monospace;
+      color: #cfcfcf;
+      padding: 2rem 1rem;
+    }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .header {
+      border-bottom: 2px solid #b8581c;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
+    .header h1 { font-size: 1.3rem; font-weight: 400; color: #e0d5b9; }
     .counter { font-size: 0.7rem; color: #b8581c; }
-    .location-card { background: #0d0f16; border: 1px solid #2a2a2a; margin-bottom: 2rem; }
-    .location-title { background: #11131c; padding: 1rem; border-bottom: 1px solid #2a2a2a; }
-    .location-content { padding: 1.5rem; }
-    .task-block { border-left: 3px solid #b8581c; background: #0a0c12; padding: 1rem; margin-bottom: 1.5rem; }
+    .score-board {
+      background: #11131c;
+      border: 1px solid #b8581c;
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #e0d5b9;
+    }
+    .card {
+      background: #0d0f16;
+      border: 1px solid #2a2a2a;
+      margin-bottom: 2rem;
+    }
+    .card-header {
+      background: #11131c;
+      padding: 1rem;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .card-body { padding: 1.5rem; }
+    .task {
+      border-left: 3px solid #b8581c;
+      background: #0a0c12;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
     .task-label { font-size: 0.7rem; color: #b8581c; text-transform: uppercase; margin-bottom: 0.5rem; }
-    input, textarea { width: 100%; background: #05070c; border: 1px solid #2a2a2a; padding: 0.7rem; color: #e0d5b9; font-family: monospace; }
-    .music-status { background: #05070c; border: 1px solid #2a2a2a; padding: 0.6rem; text-align: center; font-size: 0.7rem; margin-bottom: 1.5rem; }
-    .btn { background: none; border: 1px solid #b8581c; padding: 0.8rem; font-family: monospace; font-size: 0.8rem; color: #e0d5b9; cursor: pointer; width: 100%; margin-top: 0.5rem; }
+    .task-question { font-size: 0.85rem; line-height: 1.5; margin-bottom: 0.8rem; }
+    input, textarea {
+      width: 100%;
+      background: #05070c;
+      border: 1px solid #2a2a2a;
+      padding: 0.7rem;
+      color: #e0d5b9;
+      font-family: monospace;
+      resize: vertical;
+    }
+    .quiz-opt { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+    .quiz-opt input { width: auto; margin: 0; }
+    .quiz-feedback {
+      margin-top: 5px;
+      font-size: 0.7rem;
+      padding-left: 1.2rem;
+      color: #b8b8b8;
+    }
+    .quiz-feedback.correct { color: #6fbf6f; }
+    .quiz-feedback.incorrect { color: #bf6f6f; }
+    .music-status {
+      background: #05070c;
+      border: 1px solid #2a2a2a;
+      padding: 0.6rem;
+      text-align: center;
+      font-size: 0.7rem;
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      background: none;
+      border: 1px solid #b8581c;
+      padding: 0.8rem;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #e0d5b9;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
     .btn:hover { background: #b8581c; color: #05070c; }
     .nav-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
     .nav-buttons .btn { flex: 1; margin-top: 0; }
-    footer { border-top: 1px solid #1a1c24; margin-top: 2rem; padding-top: 1rem; text-align: center; font-size: 0.6rem; }
+    footer { text-align: center; font-size: 0.6rem; color: #5a5a5a; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #1a1c24; }
+    .history-box {
+      background: #11131c;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid #b8581c;
+    }
+    .history-rus {
+      font-size: 0.7rem;
+      color: #8a8a8a;
+      margin-top: 0.5rem;
+    }
+    .score-summary {
+      background: #11131c;
+      border-top: 1px solid #2a2a2a;
+      padding: 0.8rem;
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
-<div class="stage-container">
-  <div class="stage-header"><h1>✦ STAGE 04 · PAVILION №1</h1><div class="counter">LOCATION 4/5</div></div>
-  <div class="music-status" id="musicStatus">🎧 CLICK ANYWHERE TO START MUSIC</div>
-  <div class="location-card">
-    <div class="location-title">📍 Central Pavilion · Golden Spire</div>
-    <div class="location-content">
-      <div class="task-block"><div class="task-label">📸 PHOTO TASK</div><div class="task-question">Look up at the 97m golden spire. What symbol sits at the very tip?</div><input type="text" id="symbol" placeholder="Your answer..."></div>
-      <div class="task-block"><div class="task-label">🤔 REFLECTION</div><div class="task-question">Does the pavilion feel welcoming or intimidating? Why did Stalinist architecture use such massive scale?</div><textarea id="reflection" rows="3" placeholder="Your analysis..."></textarea></div>
+<div class="container">
+  <div class="header">
+    <h1>✦ STAGE 04 · PAVILION №1 (CENTRAL PAVILION)</h1>
+    <div class="score-board" id="scoreDisplay">🏆 SCORE: 0 / 4</div>
+  </div>
+
+  <div class="music-status" id="musicStatus">🎧 AUDIO: CLICK ANYWHERE TO START MUSIC</div>
+
+  <div class="card">
+    <div class="card-header">📍 VDNKh · Central Pavilion · Golden Spire (built 1951–1954)</div>
+    <div class="card-body">
+
+      <!-- HISTORICAL DESCRIPTION (3-5 sentences) -->
+      <div class="history-box">
+        <strong>📜 HISTORICAL CONTEXT</strong><br>
+        Pavilion №1 (Central Pavilion) is the architectural heart of VDNKh — the Exhibition of Achievements of the National Economy. The current building was reconstructed between 1951 and 1954, after Stalin's death, and features a 97‑meter golden spire crowned with a red star. The pavilion was designed to showcase the economic and industrial success of the Soviet Union, with grand halls representing each of the 15 republics. Its monumental Stalinist Empire style — massive columns, sculptures of workers, and opulent interiors — was intended to impress both Soviet citizens and foreign visitors with the supposed abundance and power of socialism.
+        <div class="history-rus">
+          🇷🇺 Павильон №1 — центральное здание ВДНХ. Построен в 1951–1954 годах. 97‑метровый шпиль с красной звездой — символ сталинской архитектуры. Здание демонстрировало успехи советской экономики и должно было внушать гордость гражданам и уважение иностранцам.
+        </div>
+      </div>
+
+      <!-- TASK 1: PHOTO TASK -->
+      <div class="task">
+        <div class="task-label">📸 PHOTO TASK</div>
+        <div class="task-question">Look up at the 97‑meter golden spire. What symbol sits at the very tip? Take a photo of the spire from below, then describe what you see and how the scale makes you feel.</div>
+        <input type="text" id="photoDesc" placeholder="Describe the symbol at the tip of the spire and your impression of its scale...">
+      </div>
+
+      <!-- TASK 2: QUIZ (4 questions with instant feedback) -->
+      <div class="task">
+        <div class="task-label">❓ QUIZ (instant feedback)</div>
+
+        <!-- Question 1: Year of reconstruction -->
+        <div class="task-question" style="margin-top: 0;">1. In what year was the current Central Pavilion (Pavilion №1) completed in its present form?</div>
+        <div class="quiz-opt"><input type="radio" name="qYear" value="1939" data-qidx="0"> <label>1939</label></div>
+        <div class="quiz-opt"><input type="radio" name="qYear" value="1954" data-qidx="0"> <label>1954</label></div>
+        <div class="quiz-opt"><input type="radio" name="qYear" value="1967" data-qidx="0"> <label>1967</label></div>
+        <div id="fb_year" class="quiz-feedback"></div>
+
+        <!-- Question 2: Symbol on spire -->
+        <div class="task-question" style="margin-top: 1rem;">2. What symbol is at the tip of the golden spire?</div>
+        <div class="quiz-opt"><input type="radio" name="qSymbol" value="A hammer and sickle" data-qidx="1"> <label>A hammer and sickle</label></div>
+        <div class="quiz-opt"><input type="radio" name="qSymbol" value="A red star" data-qidx="1"> <label>A red star</label></div>
+        <div class="quiz-opt"><input type="radio" name="qSymbol" value="A statue of Lenin" data-qidx="1"> <label>A statue of Lenin</label></div>
+        <div id="fb_symbol" class="quiz-feedback"></div>
+
+        <!-- Question 3: Original purpose of VDNKh -->
+        <div class="task-question" style="margin-top: 1rem;">3. What was the original purpose of VDNKh (Exhibition of Achievements of the National Economy)?</div>
+        <div class="quiz-opt"><input type="radio" name="qPurpose" value="To showcase Soviet economic and agricultural success" data-qidx="2"> <label>To showcase Soviet economic and agricultural success</label></div>
+        <div class="quiz-opt"><input type="radio" name="qPurpose" value="To serve as a military training ground" data-qidx="2"> <label>To serve as a military training ground</label></div>
+        <div class="quiz-opt"><input type="radio" name="qPurpose" value="To house government offices" data-qidx="2"> <label>To house government offices</label></div>
+        <div id="fb_purpose" class="quiz-feedback"></div>
+
+        <!-- Question 4: Architectural style -->
+        <div class="task-question" style="margin-top: 1rem;">4. What architectural style is exemplified by Pavilion №1 with its massive columns, sculptures, and red star?</div>
+        <div class="quiz-opt"><input type="radio" name="qStyle" value="Constructivism" data-qidx="3"> <label>Constructivism</label></div>
+        <div class="quiz-opt"><input type="radio" name="qStyle" value="Stalinist Empire (Socialist Classicism)" data-qidx="3"> <label>Stalinist Empire (Socialist Classicism)</label></div>
+        <div class="quiz-opt"><input type="radio" name="qStyle" value="Baroque Revival" data-qidx="3"> <label>Baroque Revival</label></div>
+        <div id="fb_style" class="quiz-feedback"></div>
+      </div>
+
+      <!-- TASK 3: REFLECTION -->
+      <div class="task">
+        <div class="task-label">🤔 REFLECTION</div>
+        <div class="task-question">Does the pavilion feel welcoming or intimidating? Stalinist architecture used enormous scale, gold, and monumental statues. What message was the Soviet state trying to send to ordinary citizens and to foreign visitors by building such grandiose structures?</div>
+        <textarea id="reflection" rows="3" placeholder="Write your analysis here..."></textarea>
+      </div>
+
+      <!-- TASK 4: HISTORICAL QUESTION (broader context) -->
+      <div class="task">
+        <div class="task-label">🏛️ HISTORICAL QUESTION</div>
+        <div class="task-question">Stalinist architecture (like Pavilion №1) used enormous scale, gold, and red stars to project power. How does this architectural language compare to monumental government buildings in your country? What does this style suggest about how the Stalinist state wanted to be seen by its citizens and by the world?</div>
+        <textarea id="historicalAnswer" rows="2" placeholder="Your answer..."></textarea>
+      </div>
+
       <button id="saveBtn" class="btn">💾 SAVE PROGRESS</button>
-      <div class="nav-buttons"><button id="backBtn" class="btn">◀ PREVIOUS</button><button id="nextBtn" class="btn">NEXT STAGE ▶</button></div>
+
+      <div class="nav-buttons">
+        <button id="prevBtn" class="btn">◀ PREVIOUS STAGE</button>
+        <button id="nextBtn" class="btn">NEXT STAGE ▶</button>
+      </div>
+
+      <div class="score-summary" id="scoreSummary">✅ Answer all 4 quiz questions correctly to see your score above.</div>
     </div>
   </div>
-  <footer>🎵 Music: "Moscow Nights" · /songs/stage4_pavilion.mp3</footer>
+
+  <footer>🎵 Music: "Moscow Nights" (Подмосковные вечера) · /songs/stage4_pavilion.mp3</footer>
 </div>
+
 <script>
+  // ========== AUDIO ON CLICK ==========
   let audioStarted = false;
-  function startMusic() { if (audioStarted) return; try { const audio = new Audio("songs/stage4_pavilion.mp3"); audio.loop = true; audio.volume = 0.35; audio.play().then(() => { audioStarted = true; document.getElementById("musicStatus").innerHTML = "🎧 MOSCOW NIGHTS — PLAYING"; }); } catch(e) { document.getElementById("musicStatus").innerHTML = "⚠️ AUDIO FILE MISSING"; } }
-  document.body.addEventListener("click", function init() { startMusic(); document.body.removeEventListener("click", init); });
-  function saveData() { localStorage.setItem("RSO_Stage4", JSON.stringify({ symbol: document.getElementById("symbol").value, reflection: document.getElementById("reflection").value })); localStorage.setItem("RSO_Stage4_Complete", "true"); }
-  function loadData() { const saved = localStorage.getItem("RSO_Stage4"); if (saved) { const data = JSON.parse(saved); document.getElementById("symbol").value = data.symbol || ""; document.getElementById("reflection").value = data.reflection || ""; } }
-  document.getElementById("symbol").addEventListener("input", saveData); document.getElementById("reflection").addEventListener("input", saveData);
-  document.getElementById("saveBtn").addEventListener("click", () => { saveData(); alert("✅ Saved"); });
-  document.getElementById("backBtn").addEventListener("click", () => { window.location.href = "stage3_alley.html"; });
-  document.getElementById("nextBtn").addEventListener("click", () => { const sym = document.getElementById("symbol").value.trim(); if (!sym) { alert("⚠️ Complete all tasks."); return; } saveData(); window.location.href = "stage5_degualle.html"; });
+  let currentAudio = null;
+
+  function startMusic() {
+    if (audioStarted) return;
+    try {
+      const audio = new Audio("songs/stage4_pavilion.mp3");
+      audio.loop = true;
+      audio.volume = 0.35;
+      audio.play().then(() => {
+        audioStarted = true;
+        currentAudio = audio;
+        document.getElementById("musicStatus").innerHTML = "🎧 MOSCOW NIGHTS — PLAYING";
+      }).catch(() => {
+        document.getElementById("musicStatus").innerHTML = "⚠️ CLICK ANYWHERE TO ENABLE AUDIO";
+      });
+    } catch(e) {
+      document.getElementById("musicStatus").innerHTML = "⚠️ AUDIO FILE MISSING";
+    }
+  }
+
+  document.body.addEventListener("click", function initAudio() {
+    startMusic();
+    document.body.removeEventListener("click", initAudio);
+  });
+
+  // ========== CORRECT ANSWERS ==========
+  const correctAnswers = {
+    qYear: "1954",
+    qSymbol: "A red star",
+    qPurpose: "To showcase Soviet economic and agricultural success",
+    qStyle: "Stalinist Empire (Socialist Classicism)"
+  };
+
+  // ========== UPDATE SCORE AND FEEDBACK ==========
+  function updateQuizFeedbackAndScore() {
+    let score = 0;
+
+    // Question 1 - Year
+    const selectedYear = document.querySelector('input[name="qYear"]:checked');
+    const fbYear = document.getElementById("fb_year");
+    if (selectedYear) {
+      if (selectedYear.value === correctAnswers.qYear) {
+        fbYear.innerHTML = "✓ Correct. The Central Pavilion was rebuilt between 1951 and 1954, opening after Stalin's death.";
+        fbYear.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbYear.innerHTML = "✗ Incorrect. The correct year is 1954 (1939 was the original VDNKh opening; 1967 is later).";
+        fbYear.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbYear.innerHTML = "";
+    }
+
+    // Question 2 - Symbol on spire
+    const selectedSymbol = document.querySelector('input[name="qSymbol"]:checked');
+    const fbSymbol = document.getElementById("fb_symbol");
+    if (selectedSymbol) {
+      if (selectedSymbol.value === correctAnswers.qSymbol) {
+        fbSymbol.innerHTML = "✓ Correct. A red star crowns the 97‑meter golden spire — a classic symbol of Soviet power.";
+        fbSymbol.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbSymbol.innerHTML = "✗ Incorrect. The tip features a red star (the hammer and sickle is elsewhere on the facade).";
+        fbSymbol.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbSymbol.innerHTML = "";
+    }
+
+    // Question 3 - Purpose of VDNKh
+    const selectedPurpose = document.querySelector('input[name="qPurpose"]:checked');
+    const fbPurpose = document.getElementById("fb_purpose");
+    if (selectedPurpose) {
+      if (selectedPurpose.value === correctAnswers.qPurpose) {
+        fbPurpose.innerHTML = "✓ Correct. VDNKh was a propaganda showcase meant to display the supposed abundance and success of Soviet agriculture and industry.";
+        fbPurpose.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbPurpose.innerHTML = "✗ Incorrect. VDNKh was an exhibition of economic and agricultural achievements — a 'socialist fair.'";
+        fbPurpose.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbPurpose.innerHTML = "";
+    }
+
+    // Question 4 - Architectural style
+    const selectedStyle = document.querySelector('input[name="qStyle"]:checked');
+    const fbStyle = document.getElementById("fb_style");
+    if (selectedStyle) {
+      if (selectedStyle.value === correctAnswers.qStyle) {
+        fbStyle.innerHTML = "✓ Correct. Stalinist Empire (also called Socialist Classicism) used monumental scale, columns, and Soviet symbols to project power.";
+        fbStyle.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbStyle.innerHTML = "✗ Incorrect. The style is Stalinist Empire (Socialist Classicism) — Constructivism was earlier (1920s), Baroque Revival is European.";
+        fbStyle.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbStyle.innerHTML = "";
+    }
+
+    // Update score display
+    document.getElementById("scoreDisplay").innerHTML = `🏆 SCORE: ${score} / 4`;
+    localStorage.setItem("RSO_Stage4_QuizScore", score);
+    return score;
+  }
+
+  // ========== SAVE FUNCTION ==========
+  function saveData() {
+    const selectedYear = document.querySelector('input[name="qYear"]:checked');
+    const selectedSymbol = document.querySelector('input[name="qSymbol"]:checked');
+    const selectedPurpose = document.querySelector('input[name="qPurpose"]:checked');
+    const selectedStyle = document.querySelector('input[name="qStyle"]:checked');
+
+    const data = {
+      photoDesc: document.getElementById("photoDesc").value,
+      qYear: selectedYear ? selectedYear.value : "",
+      qSymbol: selectedSymbol ? selectedSymbol.value : "",
+      qPurpose: selectedPurpose ? selectedPurpose.value : "",
+      qStyle: selectedStyle ? selectedStyle.value : "",
+      reflection: document.getElementById("reflection").value,
+      historicalAnswer: document.getElementById("historicalAnswer").value
+    };
+    localStorage.setItem("RSO_Stage4", JSON.stringify(data));
+
+    // Completion check: all fields must be filled
+    const allFilled = data.photoDesc.trim() !== "" &&
+                      data.qYear !== "" &&
+                      data.qSymbol !== "" &&
+                      data.qPurpose !== "" &&
+                      data.qStyle !== "" &&
+                      data.reflection.trim() !== "" &&
+                      data.historicalAnswer.trim() !== "";
+    localStorage.setItem("RSO_Stage4_Complete", allFilled ? "true" : "false");
+    return data;
+  }
+
+  // ========== LOAD FUNCTION ==========
+  function loadData() {
+    const saved = localStorage.getItem("RSO_Stage4");
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        document.getElementById("photoDesc").value = data.photoDesc || "";
+        if (data.qYear) {
+          const radio = document.querySelector(`input[name="qYear"][value="${data.qYear}"]`);
+          if (radio) radio.checked = true;
+        }
+        if (data.qSymbol) {
+          const radio = document.querySelector(`input[name="qSymbol"][value="${data.qSymbol}"]`);
+          if (radio) radio.checked = true;
+        }
+        if (data.qPurpose) {
+          const radio = document.querySelector(`input[name="qPurpose"][value="${data.qPurpose}"]`);
+          if (radio) radio.checked = true;
+        }
+        if (data.qStyle) {
+          const radio = document.querySelector(`input[name="qStyle"][value="${data.qStyle}"]`);
+          if (radio) radio.checked = true;
+        }
+        document.getElementById("reflection").value = data.reflection || "";
+        document.getElementById("historicalAnswer").value = data.historicalAnswer || "";
+      } catch(e) {}
+    }
+    // Trigger feedback and score update after loading
+    updateQuizFeedbackAndScore();
+  }
+
+  // ========== CHECK COMPLETION ==========
+  function isStageComplete() {
+    const photo = document.getElementById("photoDesc").value.trim();
+    const q1 = document.querySelector('input[name="qYear"]:checked');
+    const q2 = document.querySelector('input[name="qSymbol"]:checked');
+    const q3 = document.querySelector('input[name="qPurpose"]:checked');
+    const q4 = document.querySelector('input[name="qStyle"]:checked');
+    const reflection = document.getElementById("reflection").value.trim();
+    const historical = document.getElementById("historicalAnswer").value.trim();
+    return (photo !== "" && q1 && q2 && q3 && q4 && reflection !== "" && historical !== "");
+  }
+
+  // ========== AUTO-SAVE ON INPUT/CHANGE ==========
+  document.getElementById("photoDesc").addEventListener("input", function() { saveData(); });
+  document.getElementById("reflection").addEventListener("input", function() { saveData(); });
+  document.getElementById("historicalAnswer").addEventListener("input", function() { saveData(); });
+
+  const allRadios = document.querySelectorAll('input[name="qYear"], input[name="qSymbol"], input[name="qPurpose"], input[name="qStyle"]');
+  allRadios.forEach(radio => {
+    radio.addEventListener("change", function() {
+      updateQuizFeedbackAndScore();
+      saveData();
+    });
+  });
+
+  // ========== SAVE BUTTON ==========
+  document.getElementById("saveBtn").addEventListener("click", function() {
+    saveData();
+    updateQuizFeedbackAndScore();
+    alert("✅ Stage 4 progress saved! Quiz score: " + (localStorage.getItem("RSO_Stage4_QuizScore") || "0") + "/4");
+  });
+
+  // ========== NAVIGATION ==========
+  document.getElementById("prevBtn").addEventListener("click", function() {
+    saveData();
+    window.location.href = "stage3_alley.html";
+  });
+
+  document.getElementById("nextBtn").addEventListener("click", function() {
+    if (!isStageComplete()) {
+      alert("⚠️ Please complete all tasks before moving to the next stage.\n\nRequired:\n- Photo description (spire symbol)\n- All 4 quiz questions\n- Reflection\n- Historical question");
+      return;
+    }
+    saveData();
+    localStorage.setItem("RSO_TotalScore_Stage4", localStorage.getItem("RSO_Stage4_QuizScore") || "0");
+    window.location.href = "stage5_degualle.html";
+  });
+
+  // ========== LOAD SAVED DATA ==========
   loadData();
 </script>
 </body>

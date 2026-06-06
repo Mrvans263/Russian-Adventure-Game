@@ -6,58 +6,423 @@
   <title>RED STAR ORBIT · STAGE 2 · Museum of Cosmonautics</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0c12; font-family: 'Courier New', monospace; color: #cfcfcf; padding: 2rem 1rem; }
-    .stage-container { max-width: 1000px; margin: 0 auto; }
-    .stage-header { border-bottom: 2px solid #b8581c; padding-bottom: 1rem; margin-bottom: 2rem; display: flex; justify-content: space-between; }
-    .stage-header h1 { font-size: 1.3rem; font-weight: 400; color: #e0d5b9; }
+    body {
+      background: #0a0c12;
+      font-family: 'Courier New', monospace;
+      color: #cfcfcf;
+      padding: 2rem 1rem;
+    }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .header {
+      border-bottom: 2px solid #b8581c;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
+    .header h1 { font-size: 1.3rem; font-weight: 400; color: #e0d5b9; }
     .counter { font-size: 0.7rem; color: #b8581c; }
-    .location-card { background: #0d0f16; border: 1px solid #2a2a2a; margin-bottom: 2rem; }
-    .location-title { background: #11131c; padding: 1rem; border-bottom: 1px solid #2a2a2a; }
-    .location-content { padding: 1.5rem; }
-    .task-block { border-left: 3px solid #b8581c; background: #0a0c12; padding: 1rem; margin-bottom: 1.5rem; }
+    .score-board {
+      background: #11131c;
+      border: 1px solid #b8581c;
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #e0d5b9;
+    }
+    .card {
+      background: #0d0f16;
+      border: 1px solid #2a2a2a;
+      margin-bottom: 2rem;
+    }
+    .card-header {
+      background: #11131c;
+      padding: 1rem;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .card-body { padding: 1.5rem; }
+    .task {
+      border-left: 3px solid #b8581c;
+      background: #0a0c12;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
     .task-label { font-size: 0.7rem; color: #b8581c; text-transform: uppercase; margin-bottom: 0.5rem; }
     .task-question { font-size: 0.85rem; line-height: 1.5; margin-bottom: 0.8rem; }
-    input, textarea { width: 100%; background: #05070c; border: 1px solid #2a2a2a; padding: 0.7rem; color: #e0d5b9; font-family: monospace; }
+    input, textarea {
+      width: 100%;
+      background: #05070c;
+      border: 1px solid #2a2a2a;
+      padding: 0.7rem;
+      color: #e0d5b9;
+      font-family: monospace;
+    }
     .quiz-opt { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
-    .quiz-opt input { width: auto; }
-    .music-status { background: #05070c; border: 1px solid #2a2a2a; padding: 0.6rem; text-align: center; font-size: 0.7rem; margin-bottom: 1.5rem; }
-    .btn { background: none; border: 1px solid #b8581c; padding: 0.8rem; font-family: monospace; font-size: 0.8rem; color: #e0d5b9; cursor: pointer; width: 100%; margin-top: 0.5rem; }
+    .quiz-opt input { width: auto; margin: 0; }
+    .quiz-feedback {
+      margin-top: 5px;
+      font-size: 0.7rem;
+      padding-left: 1.2rem;
+      color: #b8b8b8;
+    }
+    .quiz-feedback.correct { color: #6fbf6f; }
+    .quiz-feedback.incorrect { color: #bf6f6f; }
+    .music-status {
+      background: #05070c;
+      border: 1px solid #2a2a2a;
+      padding: 0.6rem;
+      text-align: center;
+      font-size: 0.7rem;
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      background: none;
+      border: 1px solid #b8581c;
+      padding: 0.8rem;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #e0d5b9;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
     .btn:hover { background: #b8581c; color: #05070c; }
     .nav-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
     .nav-buttons .btn { flex: 1; margin-top: 0; }
-    footer { border-top: 1px solid #1a1c24; margin-top: 2rem; padding-top: 1rem; text-align: center; font-size: 0.6rem; }
+    footer { text-align: center; font-size: 0.6rem; color: #5a5a5a; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #1a1c24; }
+    .history-box {
+      background: #11131c;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid #b8581c;
+    }
+    .history-rus {
+      font-size: 0.7rem;
+      color: #8a8a8a;
+      margin-top: 0.5rem;
+    }
+    .score-summary {
+      background: #11131c;
+      border-top: 1px solid #2a2a2a;
+      padding: 0.8rem;
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
-<div class="stage-container">
-  <div class="stage-header"><h1>✦ STAGE 02 · MUSEUM OF COSMONAUTICS</h1><div class="counter">LOCATION 2/5</div></div>
-  <div class="music-status" id="musicStatus">🎧 CLICK ANYWHERE TO START MUSIC</div>
-  <div class="location-card">
-    <div class="location-title">📍 Prospekt Mira 111 · Titanium Obelisk</div>
-    <div class="location-content">
-      <div class="task-block"><div class="task-label">📸 PHOTO TASK</div><div class="task-question">The 110m obelisk is clad in titanium. Observe its reflective surface and scale.</div><input type="text" id="photoDesc" placeholder="Describe the obelisk's presence..."></div>
-      <div class="task-block"><div class="task-label">❓ QUIZ</div><div class="task-question">Why did the Soviets choose titanium for this monument?</div>
-        <div class="quiz-opt"><input type="radio" name="titanium" value="Cheapest material"><label>Cheapest material available</label></div>
-        <div class="quiz-opt"><input type="radio" name="titanium" value="Geopolitical flex — aerospace dominance"><label>Geopolitical flex — aerospace dominance</label></div>
-        <div class="quiz-opt"><input type="radio" name="titanium" value="Light and easy to install"><label>Light and easy to install</label></div>
+<div class="container">
+  <div class="header">
+    <h1>✦ STAGE 02 · MUSEUM OF COSMONAUTICS</h1>
+    <div class="score-board" id="scoreDisplay">🏆 SCORE: 0 / 4</div>
+  </div>
+
+  <div class="music-status" id="musicStatus">🎧 AUDIO: CLICK ANYWHERE TO START MUSIC</div>
+
+  <div class="card">
+    <div class="card-header">📍 Prospekt Mira 111 · Monument to the Conquerors of Space</div>
+    <div class="card-body">
+
+      <!-- HISTORICAL DESCRIPTION (3-5 sentences) -->
+      <div class="history-box">
+        <strong>📜 HISTORICAL CONTEXT</strong><br>
+        The Museum of Cosmonautics opened in 1964 beneath the Monument to the Conquerors of Space — a 107‑meter titanium obelisk erected in 1958. The museum celebrates Soviet space victories: Sputnik (1957), Laika (1957), Yuri Gagarin (1961 — first human in space), and Valentina Tereshkova (1963 — first woman). The complex served both as a genuine scientific memorial and as a statement of Soviet technological superiority during the Cold War Space Race.
+        <div class="history-rus">
+          🇷🇺 Музей космонавтики открыт в 1964 году под монументом «Покорителям космоса» (107 м, титан, 1958). Музей посвящён Спутнику, Гагарину, Терешковой — символам советской космической программы и холодной войны.
+        </div>
       </div>
-      <div class="task-block"><div class="task-label">🤔 REFLECTION</div><div class="task-question">Find the statue of Konstantin Tsiolkovsky. What emotion does his posture convey?</div><textarea id="reflection" rows="3" placeholder="Dreamer / burdened / triumphant?..."></textarea></div>
+
+      <!-- TASK 1: PHOTO TASK (Obelisk) -->
+      <div class="task">
+        <div class="task-label">📸 PHOTO TASK</div>
+        <div class="task-question">The 107‑meter obelisk is clad in titanium. Observe its reflective surface and the rocket sculpture at the top. Describe how the monument makes you feel about Soviet space ambitions.</div>
+        <input type="text" id="photoDesc" placeholder="Describe the obelisk's presence and symbolism...">
+      </div>
+
+      <!-- TASK 2: QUIZ (4 questions with instant feedback) -->
+      <div class="task">
+        <div class="task-label">❓ QUIZ (instant feedback)</div>
+
+        <!-- Question 1: Titanium choice -->
+        <div class="task-question" style="margin-top: 0;">1. Why did the Soviet Union choose titanium for the Monument to the Conquerors of Space?</div>
+        <div class="quiz-opt"><input type="radio" name="qTitanium" value="Cheapest material available" data-qidx="0"> <label>Cheapest material available</label></div>
+        <div class="quiz-opt"><input type="radio" name="qTitanium" value="To demonstrate Soviet aerospace and industrial superiority" data-qidx="0"> <label>To demonstrate Soviet aerospace and industrial superiority</label></div>
+        <div class="quiz-opt"><input type="radio" name="qTitanium" value="Light and easy to install" data-qidx="0"> <label>Light and easy to install</label></div>
+        <div id="fb_titanium" class="quiz-feedback"></div>
+
+        <!-- Question 2: First satellite -->
+        <div class="task-question" style="margin-top: 1rem;">2. What was the name of the first artificial satellite launched into space?</div>
+        <div class="quiz-opt"><input type="radio" name="qSatellite" value="Vostok" data-qidx="1"> <label>Vostok</label></div>
+        <div class="quiz-opt"><input type="radio" name="qSatellite" value="Sputnik" data-qidx="1"> <label>Sputnik</label></div>
+        <div class="quiz-opt"><input type="radio" name="qSatellite" value="Cosmos" data-qidx="1"> <label>Cosmos</label></div>
+        <div id="fb_satellite" class="quiz-feedback"></div>
+
+        <!-- Question 3: First human in space -->
+        <div class="task-question" style="margin-top: 1rem;">3. Who was the first human to travel into space?</div>
+        <div class="quiz-opt"><input type="radio" name="qCosmonaut" value="German Titov" data-qidx="2"> <label>German Titov</label></div>
+        <div class="quiz-opt"><input type="radio" name="qCosmonaut" value="Yuri Gagarin" data-qidx="2"> <label>Yuri Gagarin</label></div>
+        <div class="quiz-opt"><input type="radio" name="qCosmonaut" value="Alexei Leonov" data-qidx="2"> <label>Alexei Leonov</label></div>
+        <div id="fb_cosmonaut" class="quiz-feedback"></div>
+
+        <!-- Question 4: Year of Gagarin's flight -->
+        <div class="task-question" style="margin-top: 1rem;">4. In what year did Yuri Gagarin make his historic space flight?</div>
+        <div class="quiz-opt"><input type="radio" name="qYear" value="1957" data-qidx="3"> <label>1957</label></div>
+        <div class="quiz-opt"><input type="radio" name="qYear" value="1961" data-qidx="3"> <label>1961</label></div>
+        <div class="quiz-opt"><input type="radio" name="qYear" value="1965" data-qidx="3"> <label>1965</label></div>
+        <div id="fb_year" class="quiz-feedback"></div>
+      </div>
+
+      <!-- TASK 3: REFLECTION (Tsiolkovsky statue) -->
+      <div class="task">
+        <div class="task-label">🤔 REFLECTION</div>
+        <div class="task-question">Near the obelisk stands a statue of Konstantin Tsiolkovsky, the pioneer of rocketry. He said: "Earth is the cradle of humanity, but one cannot live in a cradle forever." What does the statue's upward‑gazing posture suggest about Soviet ambitions in space?</div>
+        <textarea id="reflection" rows="3" placeholder="Write your interpretation here..."></textarea>
+      </div>
+
+      <!-- TASK 4: HISTORICAL QUESTION (broader context) -->
+      <div class="task">
+        <div class="task-label">🏛️ HISTORICAL QUESTION</div>
+        <div class="task-question">The USSR spent enormous resources on space exploration (Sputnik, Gagarin, the obelisk) while many citizens faced housing and food shortages. Why did the Soviet leadership prioritize space achievements over consumer goods? What message did this send to the world?</div>
+        <textarea id="historicalAnswer" rows="2" placeholder="Your answer..."></textarea>
+      </div>
+
       <button id="saveBtn" class="btn">💾 SAVE PROGRESS</button>
-      <div class="nav-buttons"><button id="backBtn" class="btn">◀ PREVIOUS</button><button id="nextBtn" class="btn">NEXT STAGE ▶</button></div>
+
+      <div class="nav-buttons">
+        <button id="prevBtn" class="btn">◀ PREVIOUS STAGE</button>
+        <button id="nextBtn" class="btn">NEXT STAGE ▶</button>
+      </div>
+
+      <div class="score-summary" id="scoreSummary">✅ Answer all 4 quiz questions to see your score above.</div>
     </div>
   </div>
-  <footer>🎵 Music: "Grass Near the House" · /songs/stage2_museum.mp3</footer>
+
+  <footer>🎵 Music: "Grass Near the House" (Земля в иллюминаторе) · /songs/stage2_museum.mp3</footer>
 </div>
+
 <script>
+  // ========== AUDIO ON CLICK ==========
   let audioStarted = false;
-  function startMusic() { if (audioStarted) return; try { const audio = new Audio("songs/stage2_museum.mp3"); audio.loop = true; audio.volume = 0.35; audio.play().then(() => { audioStarted = true; document.getElementById("musicStatus").innerHTML = "🎧 GRASS NEAR THE HOUSE — PLAYING"; }); } catch(e) { document.getElementById("musicStatus").innerHTML = "⚠️ AUDIO FILE MISSING"; } }
-  document.body.addEventListener("click", function init() { startMusic(); document.body.removeEventListener("click", init); });
-  function saveData() { localStorage.setItem("RSO_Stage2", JSON.stringify({ photoDesc: document.getElementById("photoDesc").value, titanium: document.querySelector('input[name="titanium"]:checked')?.value || "", reflection: document.getElementById("reflection").value })); localStorage.setItem("RSO_Stage2_Complete", "true"); }
-  function loadData() { const saved = localStorage.getItem("RSO_Stage2"); if (saved) { const data = JSON.parse(saved); document.getElementById("photoDesc").value = data.photoDesc || ""; if (data.titanium) { const radio = document.querySelector(`input[value="${data.titanium}"]`); if (radio) radio.checked = true; } document.getElementById("reflection").value = data.reflection || ""; } }
-  document.getElementById("photoDesc").addEventListener("input", saveData); document.getElementById("reflection").addEventListener("input", saveData); document.querySelectorAll('input[name="titanium"]').forEach(r => r.addEventListener("change", saveData));
-  document.getElementById("saveBtn").addEventListener("click", () => { saveData(); alert("✅ Saved"); });
-  document.getElementById("backBtn").addEventListener("click", () => { window.location.href = "stage1_metro.html"; });
-  document.getElementById("nextBtn").addEventListener("click", () => { const photo = document.getElementById("photoDesc").value.trim(); const ti = document.querySelector('input[name="titanium"]:checked')?.value; if (!photo || !ti) { alert("⚠️ Complete all tasks first."); return; } saveData(); window.location.href = "stage3_alley.html"; });
+  let currentAudio = null;
+
+  function startMusic() {
+    if (audioStarted) return;
+    try {
+      const audio = new Audio("songs/stage2_museum.mp3");
+      audio.loop = true;
+      audio.volume = 0.35;
+      audio.play().then(() => {
+        audioStarted = true;
+        currentAudio = audio;
+        document.getElementById("musicStatus").innerHTML = "🎧 GRASS NEAR THE HOUSE — PLAYING";
+      }).catch(() => {
+        document.getElementById("musicStatus").innerHTML = "⚠️ CLICK ANYWHERE TO ENABLE AUDIO";
+      });
+    } catch(e) {
+      document.getElementById("musicStatus").innerHTML = "⚠️ AUDIO FILE MISSING";
+    }
+  }
+
+  document.body.addEventListener("click", function initAudio() {
+    startMusic();
+    document.body.removeEventListener("click", initAudio);
+  });
+
+  // ========== CORRECT ANSWERS ==========
+  const correctAnswers = {
+    qTitanium: "To demonstrate Soviet aerospace and industrial superiority",
+    qSatellite: "Sputnik",
+    qCosmonaut: "Yuri Gagarin",
+    qYear: "1961"
+  };
+
+  // ========== UPDATE SCORE AND FEEDBACK ==========
+  function updateQuizFeedbackAndScore() {
+    let score = 0;
+
+    // Question 1 - Titanium
+    const selectedTitanium = document.querySelector('input[name="qTitanium"]:checked');
+    const fbTitanium = document.getElementById("fb_titanium");
+    if (selectedTitanium) {
+      if (selectedTitanium.value === correctAnswers.qTitanium) {
+        fbTitanium.innerHTML = "✓ Correct. Titanium was a strategic aerospace material — using it for the monument signaled Soviet industrial and technological prowess.";
+        fbTitanium.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbTitanium.innerHTML = "✗ Incorrect. The correct answer: To demonstrate Soviet aerospace and industrial superiority. Titanium was expensive and high‑tech — a deliberate political statement.";
+        fbTitanium.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbTitanium.innerHTML = "";
+    }
+
+    // Question 2 - Satellite
+    const selectedSatellite = document.querySelector('input[name="qSatellite"]:checked');
+    const fbSatellite = document.getElementById("fb_satellite");
+    if (selectedSatellite) {
+      if (selectedSatellite.value === correctAnswers.qSatellite) {
+        fbSatellite.innerHTML = "✓ Correct. Sputnik 1 launched on October 4, 1957, shocking the world and starting the Space Race.";
+        fbSatellite.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbSatellite.innerHTML = "✗ Incorrect. The first satellite was Sputnik (Vostok was the spacecraft that carried Gagarin).";
+        fbSatellite.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbSatellite.innerHTML = "";
+    }
+
+    // Question 3 - First cosmonaut
+    const selectedCosmonaut = document.querySelector('input[name="qCosmonaut"]:checked');
+    const fbCosmonaut = document.getElementById("fb_cosmonaut");
+    if (selectedCosmonaut) {
+      if (selectedCosmonaut.value === correctAnswers.qCosmonaut) {
+        fbCosmonaut.innerHTML = "✓ Correct. Yuri Gagarin orbited Earth on April 12, 1961, becoming a global hero.";
+        fbCosmonaut.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbCosmonaut.innerHTML = "✗ Incorrect. The first human in space was Yuri Gagarin. German Titov flew later in 1961; Alexei Leonov performed the first spacewalk in 1965.";
+        fbCosmonaut.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbCosmonaut.innerHTML = "";
+    }
+
+    // Question 4 - Year of Gagarin's flight
+    const selectedYear = document.querySelector('input[name="qYear"]:checked');
+    const fbYear = document.getElementById("fb_year");
+    if (selectedYear) {
+      if (selectedYear.value === correctAnswers.qYear) {
+        fbYear.innerHTML = "✓ Correct. Gagarin's flight took place on April 12, 1961 — a landmark in human history.";
+        fbYear.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbYear.innerHTML = "✗ Incorrect. The correct year is 1961 (Sputnik was 1957; Leonov's spacewalk was 1965).";
+        fbYear.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbYear.innerHTML = "";
+    }
+
+    // Update score display
+    document.getElementById("scoreDisplay").innerHTML = `🏆 SCORE: ${score} / 4`;
+    localStorage.setItem("RSO_Stage2_QuizScore", score);
+    return score;
+  }
+
+  // ========== SAVE FUNCTION ==========
+  function saveData() {
+    const selectedTitanium = document.querySelector('input[name="qTitanium"]:checked');
+    const selectedSatellite = document.querySelector('input[name="qSatellite"]:checked');
+    const selectedCosmonaut = document.querySelector('input[name="qCosmonaut"]:checked');
+    const selectedYear = document.querySelector('input[name="qYear"]:checked');
+
+    const data = {
+      photoDesc: document.getElementById("photoDesc").value,
+      qTitanium: selectedTitanium ? selectedTitanium.value : "",
+      qSatellite: selectedSatellite ? selectedSatellite.value : "",
+      qCosmonaut: selectedCosmonaut ? selectedCosmonaut.value : "",
+      qYear: selectedYear ? selectedYear.value : "",
+      reflection: document.getElementById("reflection").value,
+      historicalAnswer: document.getElementById("historicalAnswer").value
+    };
+    localStorage.setItem("RSO_Stage2", JSON.stringify(data));
+
+    // Completion check: all fields must be filled
+    const allFilled = data.photoDesc.trim() !== "" &&
+                      data.qTitanium !== "" &&
+                      data.qSatellite !== "" &&
+                      data.qCosmonaut !== "" &&
+                      data.qYear !== "" &&
+                      data.reflection.trim() !== "" &&
+                      data.historicalAnswer.trim() !== "";
+    localStorage.setItem("RSO_Stage2_Complete", allFilled ? "true" : "false");
+    return data;
+  }
+
+  // ========== LOAD FUNCTION ==========
+  function loadData() {
+    const saved = localStorage.getItem("RSO_Stage2");
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        document.getElementById("photoDesc").value = data.photoDesc || "";
+        if (data.qTitanium) {
+          const radio = document.querySelector(`input[name="qTitanium"][value="${data.qTitanium}"]`);
+          if (radio) radio.checked = true;
+        }
+        if (data.qSatellite) {
+          const radio = document.querySelector(`input[name="qSatellite"][value="${data.qSatellite}"]`);
+          if (radio) radio.checked = true;
+        }
+        if (data.qCosmonaut) {
+          const radio = document.querySelector(`input[name="qCosmonaut"][value="${data.qCosmonaut}"]`);
+          if (radio) radio.checked = true;
+        }
+        if (data.qYear) {
+          const radio = document.querySelector(`input[name="qYear"][value="${data.qYear}"]`);
+          if (radio) radio.checked = true;
+        }
+        document.getElementById("reflection").value = data.reflection || "";
+        document.getElementById("historicalAnswer").value = data.historicalAnswer || "";
+      } catch(e) {}
+    }
+    // Trigger feedback and score update after loading
+    updateQuizFeedbackAndScore();
+  }
+
+  // ========== CHECK COMPLETION ==========
+  function isStageComplete() {
+    const photo = document.getElementById("photoDesc").value.trim();
+    const q1 = document.querySelector('input[name="qTitanium"]:checked');
+    const q2 = document.querySelector('input[name="qSatellite"]:checked');
+    const q3 = document.querySelector('input[name="qCosmonaut"]:checked');
+    const q4 = document.querySelector('input[name="qYear"]:checked');
+    const reflection = document.getElementById("reflection").value.trim();
+    const historical = document.getElementById("historicalAnswer").value.trim();
+    return (photo !== "" && q1 && q2 && q3 && q4 && reflection !== "" && historical !== "");
+  }
+
+  // ========== AUTO-SAVE ON INPUT/CHANGE ==========
+  document.getElementById("photoDesc").addEventListener("input", function() { saveData(); });
+  document.getElementById("reflection").addEventListener("input", function() { saveData(); });
+  document.getElementById("historicalAnswer").addEventListener("input", function() { saveData(); });
+
+  const allRadios = document.querySelectorAll('input[name="qTitanium"], input[name="qSatellite"], input[name="qCosmonaut"], input[name="qYear"]');
+  allRadios.forEach(radio => {
+    radio.addEventListener("change", function() {
+      updateQuizFeedbackAndScore();
+      saveData();
+    });
+  });
+
+  // ========== SAVE BUTTON ==========
+  document.getElementById("saveBtn").addEventListener("click", function() {
+    saveData();
+    updateQuizFeedbackAndScore();
+    alert("✅ Stage 2 progress saved! Quiz score: " + (localStorage.getItem("RSO_Stage2_QuizScore") || "0") + "/4");
+  });
+
+  // ========== NAVIGATION ==========
+  document.getElementById("prevBtn").addEventListener("click", function() {
+    saveData();
+    window.location.href = "stage1_metro.html";
+  });
+
+  document.getElementById("nextBtn").addEventListener("click", function() {
+    if (!isStageComplete()) {
+      alert("⚠️ Please complete all tasks before moving to the next stage.\n\nRequired:\n- Photo description\n- All 4 quiz questions\n- Reflection\n- Historical question");
+      return;
+    }
+    saveData();
+    localStorage.setItem("RSO_TotalScore_Stage2", localStorage.getItem("RSO_Stage2_QuizScore") || "0");
+    window.location.href = "stage3_alley.html";
+  });
+
+  // ========== LOAD SAVED DATA ==========
   loadData();
 </script>
 </body>

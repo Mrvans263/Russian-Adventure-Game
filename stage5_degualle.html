@@ -6,51 +6,424 @@
   <title>RED STAR ORBIT · STAGE 5 · Charles de Gaulle Square</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0c12; font-family: 'Courier New', monospace; color: #cfcfcf; padding: 2rem 1rem; }
-    .stage-container { max-width: 1000px; margin: 0 auto; }
-    .stage-header { border-bottom: 2px solid #b8581c; padding-bottom: 1rem; margin-bottom: 2rem; display: flex; justify-content: space-between; }
-    .stage-header h1 { font-size: 1.3rem; font-weight: 400; color: #e0d5b9; }
+    body {
+      background: #0a0c12;
+      font-family: 'Courier New', monospace;
+      color: #cfcfcf;
+      padding: 2rem 1rem;
+    }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .header {
+      border-bottom: 2px solid #b8581c;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
+    .header h1 { font-size: 1.3rem; font-weight: 400; color: #e0d5b9; }
     .counter { font-size: 0.7rem; color: #b8581c; }
-    .location-card { background: #0d0f16; border: 1px solid #2a2a2a; margin-bottom: 2rem; }
-    .location-title { background: #11131c; padding: 1rem; border-bottom: 1px solid #2a2a2a; }
-    .location-content { padding: 1.5rem; }
-    .task-block { border-left: 3px solid #b8581c; background: #0a0c12; padding: 1rem; margin-bottom: 1.5rem; }
+    .score-board {
+      background: #11131c;
+      border: 1px solid #b8581c;
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #e0d5b9;
+    }
+    .card {
+      background: #0d0f16;
+      border: 1px solid #2a2a2a;
+      margin-bottom: 2rem;
+    }
+    .card-header {
+      background: #11131c;
+      padding: 1rem;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .card-body { padding: 1.5rem; }
+    .task {
+      border-left: 3px solid #b8581c;
+      background: #0a0c12;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
     .task-label { font-size: 0.7rem; color: #b8581c; text-transform: uppercase; margin-bottom: 0.5rem; }
-    textarea, input { width: 100%; background: #05070c; border: 1px solid #2a2a2a; padding: 0.7rem; color: #e0d5b9; font-family: monospace; }
-    .music-status { background: #05070c; border: 1px solid #2a2a2a; padding: 0.6rem; text-align: center; font-size: 0.7rem; margin-bottom: 1.5rem; }
-    .btn { background: none; border: 1px solid #b8581c; padding: 0.8rem; font-family: monospace; font-size: 0.8rem; color: #e0d5b9; cursor: pointer; width: 100%; margin-top: 0.5rem; }
+    .task-question { font-size: 0.85rem; line-height: 1.5; margin-bottom: 0.8rem; }
+    input, textarea {
+      width: 100%;
+      background: #05070c;
+      border: 1px solid #2a2a2a;
+      padding: 0.7rem;
+      color: #e0d5b9;
+      font-family: monospace;
+      resize: vertical;
+    }
+    .quiz-opt { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+    .quiz-opt input { width: auto; margin: 0; }
+    .quiz-feedback {
+      margin-top: 5px;
+      font-size: 0.7rem;
+      padding-left: 1.2rem;
+      color: #b8b8b8;
+    }
+    .quiz-feedback.correct { color: #6fbf6f; }
+    .quiz-feedback.incorrect { color: #bf6f6f; }
+    .music-status {
+      background: #05070c;
+      border: 1px solid #2a2a2a;
+      padding: 0.6rem;
+      text-align: center;
+      font-size: 0.7rem;
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      background: none;
+      border: 1px solid #b8581c;
+      padding: 0.8rem;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #e0d5b9;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
     .btn:hover { background: #b8581c; color: #05070c; }
     .nav-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
     .nav-buttons .btn { flex: 1; margin-top: 0; }
-    footer { border-top: 1px solid #1a1c24; margin-top: 2rem; padding-top: 1rem; text-align: center; font-size: 0.6rem; }
+    footer { text-align: center; font-size: 0.6rem; color: #5a5a5a; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #1a1c24; }
+    .history-box {
+      background: #11131c;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid #b8581c;
+    }
+    .history-rus {
+      font-size: 0.7rem;
+      color: #8a8a8a;
+      margin-top: 0.5rem;
+    }
+    .score-summary {
+      background: #11131c;
+      border-top: 1px solid #2a2a2a;
+      padding: 0.8rem;
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
-<div class="stage-container">
-  <div class="stage-header"><h1>✦ STAGE 05 · CHARLES DE GAULLE SQUARE</h1><div class="counter">LOCATION 5/5</div></div>
-  <div class="music-status" id="musicStatus">🎧 CLICK ANYWHERE TO START MUSIC</div>
-  <div class="location-card">
-    <div class="location-title">📍 Square near French Embassy · Diplomatic Memory</div>
-    <div class="location-content">
-      <div class="task-block"><div class="task-label">🤝 REFLECTION · DIPLOMACY</div><div class="task-question">Why does Moscow have a monument to a Western leader? What does this reveal about Cold War diplomacy and space cooperation?</div><textarea id="diplomacy" rows="3" placeholder="Your analysis..."></textarea></div>
-      <div class="task-block"><div class="task-label">🌍 FINAL REFLECTION</div><div class="task-question">How does your home country display its triumphs compared to the USSR? If your country built a monument to a foreign leader, what would it signify?</div><textarea id="finalReflect" rows="4" placeholder="Your response..."></textarea></div>
-      <div class="task-block"><div class="task-label">🎥 VIDEO REPORT (1964 BROADCAST)</div><div class="task-question">Record 60 seconds as a foreign correspondent. Complete: "This monument is not just about science — it is actually about..." Paste link or describe.</div><input type="text" id="videoLink" placeholder="YouTube link or 'video recorded'"></div>
+<div class="container">
+  <div class="header">
+    <h1>✦ STAGE 05 · CHARLES DE GAULLE SQUARE</h1>
+    <div class="score-board" id="scoreDisplay">🏆 SCORE: 0 / 4</div>
+  </div>
+
+  <div class="music-status" id="musicStatus">🎧 AUDIO: CLICK ANYWHERE TO START MUSIC</div>
+
+  <div class="card">
+    <div class="card-header">📍 Square near the French Embassy · Named 1966</div>
+    <div class="card-body">
+
+      <!-- HISTORICAL DESCRIPTION (3-5 sentences + Russian) -->
+      <div class="history-box">
+        <strong>📜 HISTORICAL CONTEXT</strong><br>
+        Charles de Gaulle Square in Moscow was named in 1966 following the French President's official visit to the Soviet Union. De Gaulle, a staunch anti-communist and WWII hero, pursued an independent foreign policy — in 1966 he withdrew France from NATO's military command, seeking closer ties with the Eastern bloc. The square's naming was a pragmatic diplomatic gesture: the USSR hoped to weaken the Western alliance by encouraging French independence from the United States. This monument reminds us that Cold War politics was not simply "East vs. West" — it also involved strategic courtship of non-aligned or independent-minded leaders.
+        <div class="history-rus">
+          🇷🇺 Площадь Шарля де Голля в Москве названа в 1966 году после визита президента Франции. Де Голль вывел Францию из военного командования НАТО, и СССР использовал это для ослабления Западного альянса. Площадь — символ прагматичной холодной войны.
+        </div>
+      </div>
+
+      <!-- TASK 1: PHOTO TASK -->
+      <div class="task">
+        <div class="task-label">📸 PHOTO TASK</div>
+        <div class="task-question">Find the square or the street sign naming Charles de Gaulle Square (Площадь Шарля де Голля). Take a photo of the sign or the area. Describe its location and what you see nearby (French Embassy, surrounding buildings).</div>
+        <input type="text" id="photoDesc" placeholder="Describe the sign, its location, and the surrounding area...">
+      </div>
+
+      <!-- TASK 2: QUIZ (4 questions with instant feedback) -->
+      <div class="task">
+        <div class="task-label">❓ QUIZ (instant feedback)</div>
+
+        <!-- Question 1: Year of visit -->
+        <div class="task-question" style="margin-top: 0;">1. In what year did Charles de Gaulle visit Moscow, leading to the square being named after him?</div>
+        <div class="quiz-opt"><input type="radio" name="qYear" value="1962" data-qidx="0"> <label>1962</label></div>
+        <div class="quiz-opt"><input type="radio" name="qYear" value="1966" data-qidx="0"> <label>1966</label></div>
+        <div class="quiz-opt"><input type="radio" name="qYear" value="1970" data-qidx="0"> <label>1970</label></div>
+        <div id="fb_year" class="quiz-feedback"></div>
+
+        <!-- Question 2: De Gaulle's NATO move -->
+        <div class="task-question" style="margin-top: 1rem;">2. What major foreign policy action did Charles de Gaulle take in 1966 that made him interesting to the Soviet Union?</div>
+        <div class="quiz-opt"><input type="radio" name="qNato" value="France joined the Warsaw Pact" data-qidx="1"> <label>France joined the Warsaw Pact</label></div>
+        <div class="quiz-opt"><input type="radio" name="qNato" value="France withdrew from NATO's military command" data-qidx="1"> <label>France withdrew from NATO's military command</label></div>
+        <div class="quiz-opt"><input type="radio" name="qNato" value="France declared war on the United States" data-qidx="1"> <label>France declared war on the United States</label></div>
+        <div id="fb_nato" class="quiz-feedback"></div>
+
+        <!-- Question 3: Soviet motivation -->
+        <div class="task-question" style="margin-top: 1rem;">3. Why did the Soviet Union name a square after a French capitalist, anti-communist leader?</div>
+        <div class="quiz-opt"><input type="radio" name="qMotivation" value="To encourage France to remain independent of US influence and weaken NATO" data-qidx="2"> <label>To encourage France to remain independent of US influence and weaken NATO</label></div>
+        <div class="quiz-opt"><input type="radio" name="qMotivation" value="Because de Gaulle secretly converted to communism" data-qidx="2"> <label>Because de Gaulle secretly converted to communism</label></div>
+        <div class="quiz-opt"><input type="radio" name="qMotivation" value="As a reward for French military aid to the USSR" data-qidx="2"> <label>As a reward for French military aid to the USSR</label></div>
+        <div id="fb_motivation" class="quiz-feedback"></div>
+
+        <!-- Question 4: Broader lesson -->
+        <div class="task-question" style="margin-top: 1rem;">4. What does the existence of Charles de Gaulle Square suggest about Cold War diplomacy?</div>
+        <div class="quiz-opt"><input type="radio" name="qLesson" value="The USSR never compromised on ideology" data-qidx="3"> <label>The USSR never compromised on ideology</label></div>
+        <div class="quiz-opt"><input type="radio" name="qLesson" value="Ideology could be set aside for pragmatic political gains" data-qidx="3"> <label>Ideology could be set aside for pragmatic political gains</label></div>
+        <div class="quiz-opt"><input type="radio" name="qLesson" value="The USSR only named squares after communists" data-qidx="3"> <label>The USSR only named squares after communists</label></div>
+        <div id="fb_lesson" class="quiz-feedback"></div>
+      </div>
+
+      <!-- TASK 3: REFLECTION -->
+      <div class="task">
+        <div class="task-label">🤔 REFLECTION</div>
+        <div class="task-question">Why does Moscow have a monument to a Western leader who was anti-communist? What does this reveal about Cold War diplomacy — was it purely ideological, or were there moments of pragmatic cooperation?</div>
+        <textarea id="reflection" rows="3" placeholder="Write your analysis here..."></textarea>
+      </div>
+
+      <!-- TASK 4: HISTORICAL QUESTION (broader context) -->
+      <div class="task">
+        <div class="task-label">🏛️ HISTORICAL QUESTION</div>
+        <div class="task-question">The USSR officially promoted itself as the leader of world communism against Western capitalism. Yet here it named a public square after a capitalist, anti-communist general. What does this contradiction tell you about how the Soviet Union actually operated in foreign policy, as opposed to its ideological rhetoric?</div>
+        <textarea id="historicalAnswer" rows="2" placeholder="Your answer..."></textarea>
+      </div>
+
       <button id="saveBtn" class="btn">💾 SAVE PROGRESS</button>
-      <div class="nav-buttons"><button id="backBtn" class="btn">◀ PREVIOUS</button><button id="nextBtn" class="btn">VIEW FINAL REPORT ▶</button></div>
+
+      <div class="nav-buttons">
+        <button id="prevBtn" class="btn">◀ PREVIOUS STAGE</button>
+        <button id="nextBtn" class="btn">VIEW FINAL REPORT ▶</button>
+      </div>
+
+      <div class="score-summary" id="scoreSummary">✅ Answer all 4 quiz questions correctly to see your score above.</div>
     </div>
   </div>
-  <footer>🎵 Music: "I Love You, Life" · /songs/stage5_degualle.mp3</footer>
+
+  <footer>🎵 Music: "I Love You, Life" (Я люблю тебя, жизнь) · /songs/stage5_degualle.mp3</footer>
 </div>
+
 <script>
+  // ========== AUDIO ON CLICK ==========
   let audioStarted = false;
-  function startMusic() { if (audioStarted) return; try { const audio = new Audio("songs/stage5_degualle.mp3"); audio.loop = true; audio.volume = 0.35; audio.play().then(() => { audioStarted = true; document.getElementById("musicStatus").innerHTML = "🎧 I LOVE YOU, LIFE — PLAYING"; }); } catch(e) { document.getElementById("musicStatus").innerHTML = "⚠️ AUDIO FILE MISSING"; } }
-  document.body.addEventListener("click", function init() { startMusic(); document.body.removeEventListener("click", init); });
-  function saveData() { localStorage.setItem("RSO_Stage5", JSON.stringify({ diplomacy: document.getElementById("diplomacy").value, finalReflect: document.getElementById("finalReflect").value, videoLink: document.getElementById("videoLink").value })); localStorage.setItem("RSO_Stage5_Complete", "true"); }
-  function loadData() { const saved = localStorage.getItem("RSO_Stage5"); if (saved) { const data = JSON.parse(saved); document.getElementById("diplomacy").value = data.diplomacy || ""; document.getElementById("finalReflect").value = data.finalReflect || ""; document.getElementById("videoLink").value = data.videoLink || ""; } }
-  ["diplomacy","finalReflect","videoLink"].forEach(id => { document.getElementById(id).addEventListener("input", saveData); });
-  document.getElementById("saveBtn").addEventListener("click", () => { saveData(); alert("✅ Saved"); });
-  document.getElementById("backBtn").addEventListener("click", () => { window.location.href = "stage4_pavilion.html"; });
-  document.getElementById("nextBtn").addEventListener("click", () => { const d = document.getElementById("diplomacy").value.trim(); if (!d) { alert("⚠️ Complete all tasks."); return; } saveData(); window.location.href = "exit.html"; });
+  let currentAudio = null;
+
+  function startMusic() {
+    if (audioStarted) return;
+    try {
+      const audio = new Audio("songs/stage5_degualle.mp3");
+      audio.loop = true;
+      audio.volume = 0.35;
+      audio.play().then(() => {
+        audioStarted = true;
+        currentAudio = audio;
+        document.getElementById("musicStatus").innerHTML = "🎧 I LOVE YOU, LIFE — PLAYING";
+      }).catch(() => {
+        document.getElementById("musicStatus").innerHTML = "⚠️ CLICK ANYWHERE TO ENABLE AUDIO";
+      });
+    } catch(e) {
+      document.getElementById("musicStatus").innerHTML = "⚠️ AUDIO FILE MISSING";
+    }
+  }
+
+  document.body.addEventListener("click", function initAudio() {
+    startMusic();
+    document.body.removeEventListener("click", initAudio);
+  });
+
+  // ========== CORRECT ANSWERS ==========
+  const correctAnswers = {
+    qYear: "1966",
+    qNato: "France withdrew from NATO's military command",
+    qMotivation: "To encourage France to remain independent of US influence and weaken NATO",
+    qLesson: "Ideology could be set aside for pragmatic political gains"
+  };
+
+  // ========== UPDATE SCORE AND FEEDBACK ==========
+  function updateQuizFeedbackAndScore() {
+    let score = 0;
+
+    // Question 1 - Year
+    const selectedYear = document.querySelector('input[name="qYear"]:checked');
+    const fbYear = document.getElementById("fb_year");
+    if (selectedYear) {
+      if (selectedYear.value === correctAnswers.qYear) {
+        fbYear.innerHTML = "✓ Correct. De Gaulle visited Moscow in 1966, the same year France left NATO's military command.";
+        fbYear.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbYear.innerHTML = "✗ Incorrect. The correct year is 1966. The square was named after this historic visit.";
+        fbYear.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbYear.innerHTML = "";
+    }
+
+    // Question 2 - NATO withdrawal
+    const selectedNato = document.querySelector('input[name="qNato"]:checked');
+    const fbNato = document.getElementById("fb_nato");
+    if (selectedNato) {
+      if (selectedNato.value === correctAnswers.qNato) {
+        fbNato.innerHTML = "✓ Correct. France withdrew from NATO's integrated military command in 1966, though it remained a political member.";
+        fbNato.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbNato.innerHTML = "✗ Incorrect. France withdrew from NATO's military command (not the Warsaw Pact, which was Soviet-aligned).";
+        fbNato.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbNato.innerHTML = "";
+    }
+
+    // Question 3 - Soviet motivation
+    const selectedMotivation = document.querySelector('input[name="qMotivation"]:checked');
+    const fbMotivation = document.getElementById("fb_motivation");
+    if (selectedMotivation) {
+      if (selectedMotivation.value === correctAnswers.qMotivation) {
+        fbMotivation.innerHTML = "✓ Correct. The USSR saw de Gaulle's independence as a chance to weaken the Western alliance.";
+        fbMotivation.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbMotivation.innerHTML = "✗ Incorrect. The USSR wanted to encourage French independence from the US, not because de Gaulle became communist.";
+        fbMotivation.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbMotivation.innerHTML = "";
+    }
+
+    // Question 4 - Broader lesson
+    const selectedLesson = document.querySelector('input[name="qLesson"]:checked');
+    const fbLesson = document.getElementById("fb_lesson");
+    if (selectedLesson) {
+      if (selectedLesson.value === correctAnswers.qLesson) {
+        fbLesson.innerHTML = "✓ Correct. Cold War diplomacy was often pragmatic — ideology could be set aside when it served state interests.";
+        fbLesson.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbLesson.innerHTML = "✗ Incorrect. The USSR did compromise on ideology for pragmatic gains — this square is a prime example.";
+        fbLesson.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbLesson.innerHTML = "";
+    }
+
+    // Update score display
+    document.getElementById("scoreDisplay").innerHTML = `🏆 SCORE: ${score} / 4`;
+    localStorage.setItem("RSO_Stage5_QuizScore", score);
+    return score;
+  }
+
+  // ========== SAVE FUNCTION ==========
+  function saveData() {
+    const selectedYear = document.querySelector('input[name="qYear"]:checked');
+    const selectedNato = document.querySelector('input[name="qNato"]:checked');
+    const selectedMotivation = document.querySelector('input[name="qMotivation"]:checked');
+    const selectedLesson = document.querySelector('input[name="qLesson"]:checked');
+
+    const data = {
+      photoDesc: document.getElementById("photoDesc").value,
+      qYear: selectedYear ? selectedYear.value : "",
+      qNato: selectedNato ? selectedNato.value : "",
+      qMotivation: selectedMotivation ? selectedMotivation.value : "",
+      qLesson: selectedLesson ? selectedLesson.value : "",
+      reflection: document.getElementById("reflection").value,
+      historicalAnswer: document.getElementById("historicalAnswer").value
+    };
+    localStorage.setItem("RSO_Stage5", JSON.stringify(data));
+
+    // Completion check: all fields must be filled
+    const allFilled = data.photoDesc.trim() !== "" &&
+                      data.qYear !== "" &&
+                      data.qNato !== "" &&
+                      data.qMotivation !== "" &&
+                      data.qLesson !== "" &&
+                      data.reflection.trim() !== "" &&
+                      data.historicalAnswer.trim() !== "";
+    localStorage.setItem("RSO_Stage5_Complete", allFilled ? "true" : "false");
+    return data;
+  }
+
+  // ========== LOAD FUNCTION ==========
+  function loadData() {
+    const saved = localStorage.getItem("RSO_Stage5");
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        document.getElementById("photoDesc").value = data.photoDesc || "";
+        if (data.qYear) {
+          const radio = document.querySelector(`input[name="qYear"][value="${data.qYear}"]`);
+          if (radio) radio.checked = true;
+        }
+        if (data.qNato) {
+          const radio = document.querySelector(`input[name="qNato"][value="${data.qNato}"]`);
+          if (radio) radio.checked = true;
+        }
+        if (data.qMotivation) {
+          const radio = document.querySelector(`input[name="qMotivation"][value="${data.qMotivation}"]`);
+          if (radio) radio.checked = true;
+        }
+        if (data.qLesson) {
+          const radio = document.querySelector(`input[name="qLesson"][value="${data.qLesson}"]`);
+          if (radio) radio.checked = true;
+        }
+        document.getElementById("reflection").value = data.reflection || "";
+        document.getElementById("historicalAnswer").value = data.historicalAnswer || "";
+      } catch(e) {}
+    }
+    // Trigger feedback and score update after loading
+    updateQuizFeedbackAndScore();
+  }
+
+  // ========== CHECK COMPLETION ==========
+  function isStageComplete() {
+    const photo = document.getElementById("photoDesc").value.trim();
+    const q1 = document.querySelector('input[name="qYear"]:checked');
+    const q2 = document.querySelector('input[name="qNato"]:checked');
+    const q3 = document.querySelector('input[name="qMotivation"]:checked');
+    const q4 = document.querySelector('input[name="qLesson"]:checked');
+    const reflection = document.getElementById("reflection").value.trim();
+    const historical = document.getElementById("historicalAnswer").value.trim();
+    return (photo !== "" && q1 && q2 && q3 && q4 && reflection !== "" && historical !== "");
+  }
+
+  // ========== AUTO-SAVE ON INPUT/CHANGE ==========
+  document.getElementById("photoDesc").addEventListener("input", function() { saveData(); });
+  document.getElementById("reflection").addEventListener("input", function() { saveData(); });
+  document.getElementById("historicalAnswer").addEventListener("input", function() { saveData(); });
+
+  const allRadios = document.querySelectorAll('input[name="qYear"], input[name="qNato"], input[name="qMotivation"], input[name="qLesson"]');
+  allRadios.forEach(radio => {
+    radio.addEventListener("change", function() {
+      updateQuizFeedbackAndScore();
+      saveData();
+    });
+  });
+
+  // ========== SAVE BUTTON ==========
+  document.getElementById("saveBtn").addEventListener("click", function() {
+    saveData();
+    updateQuizFeedbackAndScore();
+    alert("✅ Stage 5 progress saved! Quiz score: " + (localStorage.getItem("RSO_Stage5_QuizScore") || "0") + "/4");
+  });
+
+  // ========== NAVIGATION ==========
+  document.getElementById("prevBtn").addEventListener("click", function() {
+    saveData();
+    window.location.href = "stage4_pavilion.html";
+  });
+
+  document.getElementById("nextBtn").addEventListener("click", function() {
+    if (!isStageComplete()) {
+      alert("⚠️ Please complete all tasks before viewing the final report.\n\nRequired:\n- Photo description\n- All 4 quiz questions\n- Reflection\n- Historical question");
+      return;
+    }
+    saveData();
+    localStorage.setItem("RSO_TotalScore_Stage5", localStorage.getItem("RSO_Stage5_QuizScore") || "0");
+    window.location.href = "exit.html";
+  });
+
+  // ========== LOAD SAVED DATA ==========
   loadData();
 </script>
 </body>

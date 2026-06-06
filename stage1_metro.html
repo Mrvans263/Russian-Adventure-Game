@@ -20,9 +20,18 @@
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
+      align-items: baseline;
     }
     .header h1 { font-size: 1.3rem; font-weight: 400; color: #e0d5b9; }
     .counter { font-size: 0.7rem; color: #b8581c; }
+    .score-board {
+      background: #11131c;
+      border: 1px solid #b8581c;
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #e0d5b9;
+    }
     .card {
       background: #0d0f16;
       border: 1px solid #2a2a2a;
@@ -52,6 +61,14 @@
     }
     .quiz-opt { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
     .quiz-opt input { width: auto; margin: 0; }
+    .quiz-feedback {
+      margin-top: 5px;
+      font-size: 0.7rem;
+      padding-left: 1.2rem;
+      color: #b8b8b8;
+    }
+    .quiz-feedback.correct { color: #6fbf6f; }
+    .quiz-feedback.incorrect { color: #bf6f6f; }
     .music-status {
       background: #05070c;
       border: 1px solid #2a2a2a;
@@ -75,34 +92,87 @@
     .nav-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
     .nav-buttons .btn { flex: 1; margin-top: 0; }
     footer { text-align: center; font-size: 0.6rem; color: #5a5a5a; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #1a1c24; }
+    .history-box {
+      background: #11131c;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid #b8581c;
+    }
+    .history-rus {
+      font-size: 0.7rem;
+      color: #8a8a8a;
+      margin-top: 0.5rem;
+    }
+    .score-summary {
+      background: #11131c;
+      border-top: 1px solid #2a2a2a;
+      padding: 0.8rem;
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
     <h1>✦ STAGE 01 · VDNKh METRO STATION</h1>
-    <div class="counter">LOCATION 1/5</div>
+    <div class="score-board" id="scoreDisplay">🏆 SCORE: 0 / 4</div>
   </div>
 
   <div class="music-status" id="musicStatus">🎧 AUDIO: CLICK ANYWHERE TO START MUSIC</div>
 
   <div class="card">
-    <div class="card-header">📍 Kaluzhsko-Rizhskaya Line · Opened 1958</div>
+    <div class="card-header">📍 Rizhsko-Kaluzhskaya Line · Opened 1958</div>
     <div class="card-body">
+      
+      <!-- HISTORICAL DESCRIPTION (3-5 sentences) -->
+      <div class="history-box">
+        <strong>📜 HISTORICAL CONTEXT</strong><br>
+        VDNKh Metro station opened on May 1, 1958, as part of the Kaluzhsko-Rizhskaya line. Its name refers to the nearby Exhibition of Achievements of the National Economy (VDNKh). The station features stained glass panels with celestial and agricultural motifs — celebrating Soviet progress in space and farming. Unlike Stalin's heavy neoclassical stations (e.g., Komsomolskaya), VDNKh station reflects Khrushchev's "Thaw" with lighter marble and simpler forms. It was designed by architects I.G. Taranov and N.A. Bykova.
+        <div class="history-rus">
+          🇷🇺 Станция «ВДНХ» открыта 1 мая 1958 года. Витражи со звёздами и космосом. Легче сталинских станций — эпоха Хрущёва. Архитекторы Таранов и Быкова.
+        </div>
+      </div>
+
       <!-- TASK 1: PHOTO -->
       <div class="task">
         <div class="task-label">📸 PHOTO TASK</div>
-        <div class="task-question">Find the stained-glass panels inside the station. What celestial motifs do you see? (stars / rockets / cosmonauts / etc.)</div>
-        <input type="text" id="photoDesc" placeholder="Describe what you see...">
+        <div class="task-question">Find the stained-glass panels inside the station. What celestial motifs do you see? (stars / rockets / cosmonauts / etc.) Take a photo or describe below.</div>
+        <input type="text" id="photoDesc" placeholder="Describe what you see or upload description...">
       </div>
 
-      <!-- TASK 2: QUIZ -->
+      <!-- TASK 2: QUIZ (4 questions with instant feedback) -->
       <div class="task">
-        <div class="task-label">❓ QUIZ</div>
-        <div class="task-question">What architectural style dominates the station's interior?</div>
-        <div class="quiz-opt"><input type="radio" name="archStyle" value="Stalinist Neoclassicism" id="opt1"> <label for="opt1">Stalinist Neoclassicism</label></div>
-        <div class="quiz-opt"><input type="radio" name="archStyle" value="Constructivism" id="opt2"> <label for="opt2">Constructivism</label></div>
-        <div class="quiz-opt"><input type="radio" name="archStyle" value="Postmodernism" id="opt3"> <label for="opt3">Postmodernism</label></div>
+        <div class="task-label">❓ QUIZ (instant feedback)</div>
+        
+        <!-- Question 1 -->
+        <div class="task-question" style="margin-top: 0;">1. What architectural style dominates the station's interior?</div>
+        <div class="quiz-opt"><input type="radio" name="archStyle" value="Stalinist Neoclassicism" data-qidx="0"> <label>Stalinist Neoclassicism</label></div>
+        <div class="quiz-opt"><input type="radio" name="archStyle" value="Constructivism" data-qidx="0"> <label>Constructivism</label></div>
+        <div class="quiz-opt"><input type="radio" name="archStyle" value="Postmodernism" data-qidx="0"> <label>Postmodernism</label></div>
+        <div id="fb_archStyle" class="quiz-feedback"></div>
+
+        <!-- Question 2 -->
+        <div class="task-question" style="margin-top: 1rem;">2. What year did VDNKh Metro station open?</div>
+        <div class="quiz-opt"><input type="radio" name="openYear" value="1958" data-qidx="1"> <label>1958</label></div>
+        <div class="quiz-opt"><input type="radio" name="openYear" value="1935" data-qidx="1"> <label>1935</label></div>
+        <div class="quiz-opt"><input type="radio" name="openYear" value="1961" data-qidx="1"> <label>1961</label></div>
+        <div id="fb_openYear" class="quiz-feedback"></div>
+
+        <!-- Question 3 -->
+        <div class="task-question" style="margin-top: 1rem;">3. The station's stained glass motifs celebrate which two Soviet achievements?</div>
+        <div class="quiz-opt"><input type="radio" name="motifs" value="Agriculture and Space" data-qidx="2"> <label>Agriculture and Space</label></div>
+        <div class="quiz-opt"><input type="radio" name="motifs" value="War and Industry" data-qidx="2"> <label>War and Industry</label></div>
+        <div class="quiz-opt"><input type="radio" name="motifs" value="Literature and Music" data-qidx="2"> <label>Literature and Music</label></div>
+        <div id="fb_motifs" class="quiz-feedback"></div>
+
+        <!-- Question 4 -->
+        <div class="task-question" style="margin-top: 1rem;">4. Which Soviet leader was in power when VDNKh station opened?</div>
+        <div class="quiz-opt"><input type="radio" name="leader" value="Khrushchev" data-qidx="3"> <label>Khrushchev (opened during his Thaw)</label></div>
+        <div class="quiz-opt"><input type="radio" name="leader" value="Stalin" data-qidx="3"> <label>Stalin (died 1953 — station planned under him)</label></div>
+        <div class="quiz-opt"><input type="radio" name="leader" value="Brezhnev" data-qidx="3"> <label>Brezhnev</label></div>
+        <div id="fb_leader" class="quiz-feedback"></div>
       </div>
 
       <!-- TASK 3: REFLECTION -->
@@ -112,12 +182,21 @@
         <textarea id="reflection" rows="3" placeholder="Write your analysis here..."></textarea>
       </div>
 
+      <!-- TASK 4: HISTORICAL QUESTION (required per assignment) -->
+      <div class="task">
+        <div class="task-label">🏛️ HISTORICAL QUESTION</div>
+        <div class="task-question">Compare VDNKh station (1958) with earlier Stalinist stations like Komsomolskaya (1952). What does the change in style tell you about Soviet society after Stalin's death in 1953?</div>
+        <textarea id="historicalAnswer" rows="2" placeholder="Your answer..."></textarea>
+      </div>
+
       <button id="saveBtn" class="btn">💾 SAVE PROGRESS</button>
       
       <div class="nav-buttons">
         <button id="prevBtn" class="btn" disabled>◀ PREVIOUS</button>
         <button id="nextBtn" class="btn">NEXT STAGE ▶</button>
       </div>
+      
+      <div class="score-summary" id="scoreSummary">✅ Answer all 4 quiz questions to see your score above.</div>
     </div>
   </div>
 
@@ -152,25 +231,120 @@
     document.body.removeEventListener("click", initAudio);
   });
 
-  // ========== SAVE & LOAD FUNCTIONS ==========
+  // ========== QUIZ CORRECT ANSWERS ==========
+  const correctAnswers = {
+    archStyle: "Stalinist Neoclassicism",
+    openYear: "1958",
+    motifs: "Agriculture and Space",
+    leader: "Khrushchev"
+  };
+
+  // ========== INSTANT FEEDBACK + SCORE UPDATE ==========
+  function updateQuizFeedbackAndScore() {
+    let score = 0;
+    
+    // Question 1
+    const selectedArch = document.querySelector('input[name="archStyle"]:checked');
+    const fbArch = document.getElementById("fb_archStyle");
+    if (selectedArch) {
+      if (selectedArch.value === correctAnswers.archStyle) {
+        fbArch.innerHTML = "✓ Correct! Stalinist Neoclassicism was the dominant style for Stalin-era metro stations, though this one shows transitional features.";
+        fbArch.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbArch.innerHTML = "✗ Incorrect. The correct answer is Stalinist Neoclassicism. Even in 1958, the station followed Stalinist templates planned before his death.";
+        fbArch.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbArch.innerHTML = "";
+    }
+
+    // Question 2
+    const selectedYear = document.querySelector('input[name="openYear"]:checked');
+    const fbYear = document.getElementById("fb_openYear");
+    if (selectedYear) {
+      if (selectedYear.value === correctAnswers.openYear) {
+        fbYear.innerHTML = "✓ Correct! VDNKh station opened on May 1, 1958.";
+        fbYear.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbYear.innerHTML = "✗ Incorrect. The station opened in 1958 (not 1935 — that's the first metro line, not VDNKh; not 1961 — Gagarin's flight year).";
+        fbYear.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbYear.innerHTML = "";
+    }
+
+    // Question 3
+    const selectedMotifs = document.querySelector('input[name="motifs"]:checked');
+    const fbMotifs = document.getElementById("fb_motifs");
+    if (selectedMotifs) {
+      if (selectedMotifs.value === correctAnswers.motifs) {
+        fbMotifs.innerHTML = "✓ Correct! The stained glass shows agricultural themes (VDNKh exhibition) and celestial/space motifs (Sputnik era).";
+        fbMotifs.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbMotifs.innerHTML = "✗ Incorrect. The correct answer is Agriculture and Space — the station is a gateway to the agricultural exhibition and built during the early Space Race.";
+        fbMotifs.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbMotifs.innerHTML = "";
+    }
+
+    // Question 4
+    const selectedLeader = document.querySelector('input[name="leader"]:checked');
+    const fbLeader = document.getElementById("fb_leader");
+    if (selectedLeader) {
+      if (selectedLeader.value === correctAnswers.leader) {
+        fbLeader.innerHTML = "✓ Correct! Khrushchev was in power (1953–1964). The station opened during his 'Thaw', though planning began under Stalin.";
+        fbLeader.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbLeader.innerHTML = "✗ Incorrect. Khrushchev was the leader when the station opened (1958). Stalin died in 1953, Brezhnev came later.";
+        fbLeader.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbLeader.innerHTML = "";
+    }
+    
+    // Update score display
+    document.getElementById("scoreDisplay").innerHTML = `🏆 SCORE: ${score} / 4`;
+    // Store current score in localStorage for persistence
+    localStorage.setItem("RSO_Stage1_QuizScore", score);
+    return score;
+  }
+
+  // ========== SAVE FUNCTION (integrates all quiz + photo + reflection + historical) ==========
   function saveData() {
     const selectedStyle = document.querySelector('input[name="archStyle"]:checked');
+    const selectedYear = document.querySelector('input[name="openYear"]:checked');
+    const selectedMotifs = document.querySelector('input[name="motifs"]:checked');
+    const selectedLeader = document.querySelector('input[name="leader"]:checked');
+    
     const data = {
       photoDesc: document.getElementById("photoDesc").value,
       archStyle: selectedStyle ? selectedStyle.value : "",
-      reflection: document.getElementById("reflection").value
+      openYear: selectedYear ? selectedYear.value : "",
+      motifs: selectedMotifs ? selectedMotifs.value : "",
+      leader: selectedLeader ? selectedLeader.value : "",
+      reflection: document.getElementById("reflection").value,
+      historicalAnswer: document.getElementById("historicalAnswer").value
     };
     localStorage.setItem("RSO_Stage1", JSON.stringify(data));
-    // Mark as NOT complete until all fields are filled
-    const allFilled = data.photoDesc.trim() !== "" && data.archStyle !== "" && data.reflection.trim() !== "";
-    if (allFilled) {
-      localStorage.setItem("RSO_Stage1_Complete", "true");
-    } else {
-      localStorage.setItem("RSO_Stage1_Complete", "false");
-    }
+    
+    // Completion check: all fields must be filled (quiz all answered, photo desc, reflection, historical)
+    const allFilled = data.photoDesc.trim() !== "" && 
+                      data.archStyle !== "" && 
+                      data.openYear !== "" &&
+                      data.motifs !== "" &&
+                      data.leader !== "" &&
+                      data.reflection.trim() !== "" &&
+                      data.historicalAnswer.trim() !== "";
+    localStorage.setItem("RSO_Stage1_Complete", allFilled ? "true" : "false");
     return data;
   }
 
+  // ========== LOAD FUNCTION ==========
   function loadData() {
     const saved = localStorage.getItem("RSO_Stage1");
     if (saved) {
@@ -178,42 +352,73 @@
         const data = JSON.parse(saved);
         document.getElementById("photoDesc").value = data.photoDesc || "";
         if (data.archStyle) {
-          const radio = document.querySelector(`input[value="${data.archStyle}"]`);
+          const radio = document.querySelector(`input[name="archStyle"][value="${data.archStyle}"]`);
           if (radio) radio.checked = true;
         }
+        if (data.openYear) {
+          const radioYear = document.querySelector(`input[name="openYear"][value="${data.openYear}"]`);
+          if (radioYear) radioYear.checked = true;
+        }
+        if (data.motifs) {
+          const radioMotifs = document.querySelector(`input[name="motifs"][value="${data.motifs}"]`);
+          if (radioMotifs) radioMotifs.checked = true;
+        }
+        if (data.leader) {
+          const radioLeader = document.querySelector(`input[name="leader"][value="${data.leader}"]`);
+          if (radioLeader) radioLeader.checked = true;
+        }
         document.getElementById("reflection").value = data.reflection || "";
+        document.getElementById("historicalAnswer").value = data.historicalAnswer || "";
       } catch(e) {}
     }
+    // Trigger feedback and score update after loading
+    updateQuizFeedbackAndScore();
   }
 
+  // ========== CHECK IF STAGE IS COMPLETE (all required fields filled) ==========
   function isStageComplete() {
     const photo = document.getElementById("photoDesc").value.trim();
     const arch = document.querySelector('input[name="archStyle"]:checked');
+    const year = document.querySelector('input[name="openYear"]:checked');
+    const motifs = document.querySelector('input[name="motifs"]:checked');
+    const leader = document.querySelector('input[name="leader"]:checked');
     const reflection = document.getElementById("reflection").value.trim();
-    return (photo !== "" && arch !== null && reflection !== "");
+    const historical = document.getElementById("historicalAnswer").value.trim();
+    return (photo !== "" && arch !== null && year !== null && motifs !== null && leader !== null && reflection !== "" && historical !== "");
   }
 
-  // ========== AUTO-SAVE ON INPUT ==========
+  // ========== AUTO-SAVE ON INPUT/CHANGE ==========
   document.getElementById("photoDesc").addEventListener("input", function() { saveData(); });
   document.getElementById("reflection").addEventListener("input", function() { saveData(); });
-  document.querySelectorAll('input[name="archStyle"]').forEach(radio => {
-    radio.addEventListener("change", function() { saveData(); });
+  document.getElementById("historicalAnswer").addEventListener("input", function() { saveData(); });
+  
+  // For quiz radios: update feedback + score + auto-save
+  const allQuizRadios = document.querySelectorAll('input[name="archStyle"], input[name="openYear"], input[name="motifs"], input[name="leader"]');
+  allQuizRadios.forEach(radio => {
+    radio.addEventListener("change", function() { 
+      updateQuizFeedbackAndScore(); 
+      saveData();
+    });
   });
 
   // ========== SAVE BUTTON ==========
   document.getElementById("saveBtn").addEventListener("click", function() {
     saveData();
-    alert("✅ Stage 1 progress saved!");
+    updateQuizFeedbackAndScore();
+    alert("✅ Stage 1 progress saved! Your quiz score is " + localStorage.getItem("RSO_Stage1_QuizScore") + "/4");
   });
 
-  // ========== NEXT BUTTON (NO AUTO-SKIP) ==========
+  // ========== NEXT BUTTON (validates completion before moving) ==========
   document.getElementById("nextBtn").addEventListener("click", function() {
     if (!isStageComplete()) {
-      alert("⚠️ Please complete all tasks before moving to the next stage.");
+      alert("⚠️ Please complete all tasks before moving to the next stage.\n\nRequired:\n- Photo description\n- All 4 quiz questions\n- Reflection\n- Historical question");
       return;
     }
     saveData();
-    // Change this to your actual Stage 2 file name
+    // Optionally store final score to global leaderboard
+    const finalScore = localStorage.getItem("RSO_Stage1_QuizScore") || "0";
+    localStorage.setItem("RSO_TotalScore_Stage1", finalScore);
+    // Redirect to stage 2 (museum page) — change filename if needed
     window.location.href = "stage2_museum.html";
   });
 

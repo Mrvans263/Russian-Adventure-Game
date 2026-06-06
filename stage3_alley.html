@@ -6,53 +6,424 @@
   <title>RED STAR ORBIT · STAGE 3 · Cosmonauts Alley</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0c12; font-family: 'Courier New', monospace; color: #cfcfcf; padding: 2rem 1rem; }
-    .stage-container { max-width: 1000px; margin: 0 auto; }
-    .stage-header { border-bottom: 2px solid #b8581c; padding-bottom: 1rem; margin-bottom: 2rem; display: flex; justify-content: space-between; }
-    .stage-header h1 { font-size: 1.3rem; font-weight: 400; color: #e0d5b9; }
+    body {
+      background: #0a0c12;
+      font-family: 'Courier New', monospace;
+      color: #cfcfcf;
+      padding: 2rem 1rem;
+    }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .header {
+      border-bottom: 2px solid #b8581c;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
+    .header h1 { font-size: 1.3rem; font-weight: 400; color: #e0d5b9; }
     .counter { font-size: 0.7rem; color: #b8581c; }
-    .location-card { background: #0d0f16; border: 1px solid #2a2a2a; margin-bottom: 2rem; }
-    .location-title { background: #11131c; padding: 1rem; border-bottom: 1px solid #2a2a2a; }
-    .location-content { padding: 1.5rem; }
-    .task-block { border-left: 3px solid #b8581c; background: #0a0c12; padding: 1rem; margin-bottom: 1.5rem; }
+    .score-board {
+      background: #11131c;
+      border: 1px solid #b8581c;
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #e0d5b9;
+    }
+    .card {
+      background: #0d0f16;
+      border: 1px solid #2a2a2a;
+      margin-bottom: 2rem;
+    }
+    .card-header {
+      background: #11131c;
+      padding: 1rem;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .card-body { padding: 1.5rem; }
+    .task {
+      border-left: 3px solid #b8581c;
+      background: #0a0c12;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
     .task-label { font-size: 0.7rem; color: #b8581c; text-transform: uppercase; margin-bottom: 0.5rem; }
     .task-question { font-size: 0.85rem; line-height: 1.5; margin-bottom: 0.8rem; }
-    textarea { width: 100%; background: #05070c; border: 1px solid #2a2a2a; padding: 0.7rem; color: #e0d5b9; font-family: monospace; }
-    .music-status { background: #05070c; border: 1px solid #2a2a2a; padding: 0.6rem; text-align: center; font-size: 0.7rem; margin-bottom: 1.5rem; }
-    .btn { background: none; border: 1px solid #b8581c; padding: 0.8rem; font-family: monospace; font-size: 0.8rem; color: #e0d5b9; cursor: pointer; width: 100%; margin-top: 0.5rem; }
+    input, textarea {
+      width: 100%;
+      background: #05070c;
+      border: 1px solid #2a2a2a;
+      padding: 0.7rem;
+      color: #e0d5b9;
+      font-family: monospace;
+      resize: vertical;
+    }
+    .quiz-opt { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+    .quiz-opt input { width: auto; margin: 0; }
+    .quiz-feedback {
+      margin-top: 5px;
+      font-size: 0.7rem;
+      padding-left: 1.2rem;
+      color: #b8b8b8;
+    }
+    .quiz-feedback.correct { color: #6fbf6f; }
+    .quiz-feedback.incorrect { color: #bf6f6f; }
+    .music-status {
+      background: #05070c;
+      border: 1px solid #2a2a2a;
+      padding: 0.6rem;
+      text-align: center;
+      font-size: 0.7rem;
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      background: none;
+      border: 1px solid #b8581c;
+      padding: 0.8rem;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #e0d5b9;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
     .btn:hover { background: #b8581c; color: #05070c; }
     .nav-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
     .nav-buttons .btn { flex: 1; margin-top: 0; }
-    footer { border-top: 1px solid #1a1c24; margin-top: 2rem; padding-top: 1rem; text-align: center; font-size: 0.6rem; }
+    footer { text-align: center; font-size: 0.6rem; color: #5a5a5a; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #1a1c24; }
+    .history-box {
+      background: #11131c;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid #b8581c;
+    }
+    .history-rus {
+      font-size: 0.7rem;
+      color: #8a8a8a;
+      margin-top: 0.5rem;
+    }
+    .score-summary {
+      background: #11131c;
+      border-top: 1px solid #2a2a2a;
+      padding: 0.8rem;
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
-<div class="stage-container">
-  <div class="stage-header"><h1>✦ STAGE 03 · COSMONAUTS ALLEY</h1><div class="counter">LOCATION 3/5</div></div>
-  <div class="music-status" id="musicStatus">🎧 CLICK ANYWHERE TO START MUSIC</div>
-  <div class="location-card">
-    <div class="location-title">📍 Alley of Heroes · Bronze Busts & Reliefs</div>
-    <div class="location-content">
-      <div class="task-block"><div class="task-label">👩‍🚀 TASK 1 · TERESHKOVA VS GAGARIN</div><div class="task-question">Compare their facial expressions and jawlines. Is Tereshkova depicted as an equal soldier or feminized? What does this say about Soviet gender propaganda?</div><textarea id="gender" rows="3" placeholder="Your analysis..."></textarea></div>
-      <div class="task-block"><div class="task-label">🛠️ TASK 2 · KOROLEV'S BURDEN</div><div class="task-question">Korolev's hands in pockets, shoulders hunched, looking downward. Why is the Chief Designer shown as burdened while cosmonauts look up?</div><textarea id="korolev" rows="3" placeholder="Interpretation..."></textarea></div>
-      <div class="task-block"><div class="task-label">✊ TASK 3 · LENIN'S VECTOR</div><div class="task-question">At the side reliefs: which direction does Lenin's finger point? (up toward rocket / forward toward horizon). What is your verdict?</div><textarea id="lenin" rows="2" placeholder="Your verdict..."></textarea></div>
-      <div class="task-block"><div class="task-label">🐕 TASK 4 · LAIKA, THE SECRET PASSENGER</div><div class="task-question">Is Laika depicted as a tool of science or a heroic comrade? How does her placement change the emotional tone?</div><textarea id="laika" rows="3" placeholder="Your analysis..."></textarea></div>
+<div class="container">
+  <div class="header">
+    <h1>✦ STAGE 03 · COSMONAUTS ALLEY</h1>
+    <div class="score-board" id="scoreDisplay">🏆 SCORE: 0 / 4</div>
+  </div>
+
+  <div class="music-status" id="musicStatus">🎧 AUDIO: CLICK ANYWHERE TO START MUSIC</div>
+
+  <div class="card">
+    <div class="card-header">📍 Alley of Heroes · Bronze Busts & Reliefs (1960s)</div>
+    <div class="card-body">
+
+      <!-- HISTORICAL DESCRIPTION (3-5 sentences) -->
+      <div class="history-box">
+        <strong>📜 HISTORICAL CONTEXT</strong><br>
+        Cosmonauts Alley was established in the 1960s near the Monument to the Conquerors of Space. It features bronze busts of Soviet cosmonauts — Yuri Gagarin (first human in space, 1961), Valentina Tereshkova (first woman in space, 1963), and others — along with a statue of Sergei Korolev, the chief rocket engineer who was kept anonymous during his lifetime. The alley served as a state‑crafted hall of heroes, projecting an image of Soviet unity and technological triumph during the Cold War. Behind the celebration, however, the space program involved immense risk, secrecy, and political pressure.
+        <div class="history-rus">
+          🇷🇺 Аллея Космонавтов создана в 1960‑х годах. Бюсты Гагарина, Терешковой, Королёва — государственная пропаганда советского превосходства в космосе. За героическими образами стояли огромные риски и политическое давление.
+        </div>
+      </div>
+
+      <!-- TASK 1: PHOTO TASK -->
+      <div class="task">
+        <div class="task-label">📸 PHOTO TASK</div>
+        <div class="task-question">Find any bronze bust in Cosmonauts Alley (Gagarin, Tereshkova, Korolev, or another). Take a photo of the bust. Then describe the person depicted and the expression or posture of the sculpture.</div>
+        <input type="text" id="photoDesc" placeholder="Describe which bust you photographed, the person's identity, and what their expression/posture suggests...">
+      </div>
+
+      <!-- TASK 2: QUIZ (4 questions with instant feedback) -->
+      <div class="task">
+        <div class="task-label">❓ QUIZ (instant feedback)</div>
+
+        <!-- Question 1: Gagarin -->
+        <div class="task-question" style="margin-top: 0;">1. What was Yuri Gagarin's historic achievement?</div>
+        <div class="quiz-opt"><input type="radio" name="qGagarin" value="First spacewalk" data-qidx="0"> <label>First spacewalk</label></div>
+        <div class="quiz-opt"><input type="radio" name="qGagarin" value="First human in space" data-qidx="0"> <label>First human in space</label></div>
+        <div class="quiz-opt"><input type="radio" name="qGagarin" value="First woman in space" data-qidx="0"> <label>First woman in space</label></div>
+        <div id="fb_gagarin" class="quiz-feedback"></div>
+
+        <!-- Question 2: Tereshkova -->
+        <div class="task-question" style="margin-top: 1rem;">2. What made Valentina Tereshkova's flight historically significant?</div>
+        <div class="quiz-opt"><input type="radio" name="qTereshkova" value="She was the oldest cosmonaut" data-qidx="1"> <label>She was the oldest cosmonaut</label></div>
+        <div class="quiz-opt"><input type="radio" name="qTereshkova" value="She was the first woman in space" data-qidx="1"> <label>She was the first woman in space</label></div>
+        <div class="quiz-opt"><input type="radio" name="qTereshkova" value="She was the first to walk on the Moon" data-qidx="1"> <label>She was the first to walk on the Moon</label></div>
+        <div id="fb_tereshkova" class="quiz-feedback"></div>
+
+        <!-- Question 3: Korolev -->
+        <div class="task-question" style="margin-top: 1rem;">3. Why was Sergei Korolev referred to only as "Chief Designer" during his lifetime?</div>
+        <div class="quiz-opt"><input type="radio" name="qKorolev" value="He was a foreign spy" data-qidx="2"> <label>He was a foreign spy</label></div>
+        <div class="quiz-opt"><input type="radio" name="qKorolev" value="The Soviet regime kept his identity secret for state security" data-qidx="2"> <label>The Soviet regime kept his identity secret for state security</label></div>
+        <div class="quiz-opt"><input type="radio" name="qKorolev" value="He refused to reveal his name" data-qidx="2"> <label>He refused to reveal his name</label></div>
+        <div id="fb_korolev" class="quiz-feedback"></div>
+
+        <!-- Question 4: Laika -->
+        <div class="task-question" style="margin-top: 1rem;">4. What happened to Laika, the dog launched in Sputnik 2 (1957)?</div>
+        <div class="quiz-opt"><input type="radio" name="qLaika" value="She returned safely to Earth" data-qidx="3"> <label>She returned safely to Earth</label></div>
+        <div class="quiz-opt"><input type="radio" name="qLaika" value="She died within hours due to overheating and stress" data-qidx="3"> <label>She died within hours due to overheating and stress</label></div>
+        <div class="quiz-opt"><input type="radio" name="qLaika" value="She orbited for one year and then died" data-qidx="3"> <label>She orbited for one year and then died</label></div>
+        <div id="fb_laika" class="quiz-feedback"></div>
+      </div>
+
+      <!-- TASK 3: REFLECTION -->
+      <div class="task">
+        <div class="task-label">🤔 REFLECTION</div>
+        <div class="task-question">In the alley, the cosmonauts' busts typically gaze upward toward the sky, while Korolev (the engineer) is depicted looking downward with hunched shoulders. What does this contrast suggest about how the Soviet state wanted to present heroes versus the hidden labor behind space achievements?</div>
+        <textarea id="reflection" rows="3" placeholder="Write your analysis here..."></textarea>
+      </div>
+
+      <!-- TASK 4: HISTORICAL QUESTION (broader context) -->
+      <div class="task">
+        <div class="task-label">🏛️ HISTORICAL QUESTION</div>
+        <div class="task-question">The Soviet Union officially promoted itself as a collective, classless society. Yet Cosmonauts Alley celebrates named individual heroes with distinct busts. Why did the state create an "alley of heroes" focusing on specific persons? What does this contradiction reveal about how Soviet propaganda actually functioned?</div>
+        <textarea id="historicalAnswer" rows="2" placeholder="Your answer..."></textarea>
+      </div>
+
       <button id="saveBtn" class="btn">💾 SAVE PROGRESS</button>
-      <div class="nav-buttons"><button id="backBtn" class="btn">◀ PREVIOUS</button><button id="nextBtn" class="btn">NEXT STAGE ▶</button></div>
+
+      <div class="nav-buttons">
+        <button id="prevBtn" class="btn">◀ PREVIOUS STAGE</button>
+        <button id="nextBtn" class="btn">NEXT STAGE ▶</button>
+      </div>
+
+      <div class="score-summary" id="scoreSummary">✅ Answer all 4 quiz questions correctly to see your score above.</div>
     </div>
   </div>
+
   <footer>🎵 Music: "Hope" (Nadezhda) · /songs/stage3_alley.mp3</footer>
 </div>
+
 <script>
+  // ========== AUDIO ON CLICK ==========
   let audioStarted = false;
-  function startMusic() { if (audioStarted) return; try { const audio = new Audio("songs/stage3_alley.mp3"); audio.loop = true; audio.volume = 0.35; audio.play().then(() => { audioStarted = true; document.getElementById("musicStatus").innerHTML = "🎧 HOPE — PLAYING"; }); } catch(e) { document.getElementById("musicStatus").innerHTML = "⚠️ AUDIO FILE MISSING"; } }
-  document.body.addEventListener("click", function init() { startMusic(); document.body.removeEventListener("click", init); });
-  function saveData() { localStorage.setItem("RSO_Stage3", JSON.stringify({ gender: document.getElementById("gender").value, korolev: document.getElementById("korolev").value, lenin: document.getElementById("lenin").value, laika: document.getElementById("laika").value })); localStorage.setItem("RSO_Stage3_Complete", "true"); }
-  function loadData() { const saved = localStorage.getItem("RSO_Stage3"); if (saved) { const data = JSON.parse(saved); document.getElementById("gender").value = data.gender || ""; document.getElementById("korolev").value = data.korolev || ""; document.getElementById("lenin").value = data.lenin || ""; document.getElementById("laika").value = data.laika || ""; } }
-  ["gender","korolev","lenin","laika"].forEach(id => { document.getElementById(id).addEventListener("input", saveData); });
-  document.getElementById("saveBtn").addEventListener("click", () => { saveData(); alert("✅ Saved"); });
-  document.getElementById("backBtn").addEventListener("click", () => { window.location.href = "stage2_museum.html"; });
-  document.getElementById("nextBtn").addEventListener("click", () => { const g = document.getElementById("gender").value.trim(); if (!g) { alert("⚠️ Complete all tasks."); return; } saveData(); window.location.href = "stage4_pavilion.html"; });
+  let currentAudio = null;
+
+  function startMusic() {
+    if (audioStarted) return;
+    try {
+      const audio = new Audio("songs/stage3_alley.mp3");
+      audio.loop = true;
+      audio.volume = 0.35;
+      audio.play().then(() => {
+        audioStarted = true;
+        currentAudio = audio;
+        document.getElementById("musicStatus").innerHTML = "🎧 HOPE (NADEZHDA) — PLAYING";
+      }).catch(() => {
+        document.getElementById("musicStatus").innerHTML = "⚠️ CLICK ANYWHERE TO ENABLE AUDIO";
+      });
+    } catch(e) {
+      document.getElementById("musicStatus").innerHTML = "⚠️ AUDIO FILE MISSING";
+    }
+  }
+
+  document.body.addEventListener("click", function initAudio() {
+    startMusic();
+    document.body.removeEventListener("click", initAudio);
+  });
+
+  // ========== CORRECT ANSWERS ==========
+  const correctAnswers = {
+    qGagarin: "First human in space",
+    qTereshkova: "She was the first woman in space",
+    qKorolev: "The Soviet regime kept his identity secret for state security",
+    qLaika: "She died within hours due to overheating and stress"
+  };
+
+  // ========== UPDATE SCORE AND FEEDBACK ==========
+  function updateQuizFeedbackAndScore() {
+    let score = 0;
+
+    // Question 1 - Gagarin
+    const selectedGagarin = document.querySelector('input[name="qGagarin"]:checked');
+    const fbGagarin = document.getElementById("fb_gagarin");
+    if (selectedGagarin) {
+      if (selectedGagarin.value === correctAnswers.qGagarin) {
+        fbGagarin.innerHTML = "✓ Correct. Yuri Gagarin orbited Earth on April 12, 1961, becoming a global hero.";
+        fbGagarin.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbGagarin.innerHTML = "✗ Incorrect. Gagarin was the first human in space. The first spacewalk was performed by Alexei Leonov in 1965; the first woman was Tereshkova in 1963.";
+        fbGagarin.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbGagarin.innerHTML = "";
+    }
+
+    // Question 2 - Tereshkova
+    const selectedTereshkova = document.querySelector('input[name="qTereshkova"]:checked');
+    const fbTereshkova = document.getElementById("fb_tereshkova");
+    if (selectedTereshkova) {
+      if (selectedTereshkova.value === correctAnswers.qTereshkova) {
+        fbTereshkova.innerHTML = "✓ Correct. Valentina Tereshkova flew Vostok 6 in June 1963, becoming the first woman in space.";
+        fbTereshkova.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbTereshkova.innerHTML = "✗ Incorrect. Tereshkova was the first woman in space. No Soviet cosmonaut walked on the Moon; that was achieved by US astronauts.";
+        fbTereshkova.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbTereshkova.innerHTML = "";
+    }
+
+    // Question 3 - Korolev
+    const selectedKorolev = document.querySelector('input[name="qKorolev"]:checked');
+    const fbKorolev = document.getElementById("fb_korolev");
+    if (selectedKorolev) {
+      if (selectedKorolev.value === correctAnswers.qKorolev) {
+        fbKorolev.innerHTML = "✓ Correct. Korolev's identity was a state secret until after his death in 1966, due to Cold War security concerns and his own past as a Gulag survivor.";
+        fbKorolev.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbKorolev.innerHTML = "✗ Incorrect. The Soviet regime kept Korolev's identity secret for state security. He was not a spy, and he did not refuse to reveal his name — it was state policy.";
+        fbKorolev.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbKorolev.innerHTML = "";
+    }
+
+    // Question 4 - Laika
+    const selectedLaika = document.querySelector('input[name="qLaika"]:checked');
+    const fbLaika = document.getElementById("fb_laika");
+    if (selectedLaika) {
+      if (selectedLaika.value === correctAnswers.qLaika) {
+        fbLaika.innerHTML = "✓ Correct. Laika died within hours due to overheating and stress. The technology for safe reentry did not yet exist.";
+        fbLaika.className = "quiz-feedback correct";
+        score++;
+      } else {
+        fbLaika.innerHTML = "✗ Incorrect. Laika did not survive. She died within hours of launch due to overheating and stress. Her death was acknowledged by the USSR years later.";
+        fbLaika.className = "quiz-feedback incorrect";
+      }
+    } else {
+      fbLaika.innerHTML = "";
+    }
+
+    // Update score display
+    document.getElementById("scoreDisplay").innerHTML = `🏆 SCORE: ${score} / 4`;
+    localStorage.setItem("RSO_Stage3_QuizScore", score);
+    return score;
+  }
+
+  // ========== SAVE FUNCTION ==========
+  function saveData() {
+    const selectedGagarin = document.querySelector('input[name="qGagarin"]:checked');
+    const selectedTereshkova = document.querySelector('input[name="qTereshkova"]:checked');
+    const selectedKorolev = document.querySelector('input[name="qKorolev"]:checked');
+    const selectedLaika = document.querySelector('input[name="qLaika"]:checked');
+
+    const data = {
+      photoDesc: document.getElementById("photoDesc").value,
+      qGagarin: selectedGagarin ? selectedGagarin.value : "",
+      qTereshkova: selectedTereshkova ? selectedTereshkova.value : "",
+      qKorolev: selectedKorolev ? selectedKorolev.value : "",
+      qLaika: selectedLaika ? selectedLaika.value : "",
+      reflection: document.getElementById("reflection").value,
+      historicalAnswer: document.getElementById("historicalAnswer").value
+    };
+    localStorage.setItem("RSO_Stage3", JSON.stringify(data));
+
+    // Completion check: all fields must be filled (photo + 4 quiz + reflection + historical)
+    const allFilled = data.photoDesc.trim() !== "" &&
+                      data.qGagarin !== "" &&
+                      data.qTereshkova !== "" &&
+                      data.qKorolev !== "" &&
+                      data.qLaika !== "" &&
+                      data.reflection.trim() !== "" &&
+                      data.historicalAnswer.trim() !== "";
+    localStorage.setItem("RSO_Stage3_Complete", allFilled ? "true" : "false");
+    return data;
+  }
+
+  // ========== LOAD FUNCTION ==========
+  function loadData() {
+    const saved = localStorage.getItem("RSO_Stage3");
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        document.getElementById("photoDesc").value = data.photoDesc || "";
+        if (data.qGagarin) {
+          const radio = document.querySelector(`input[name="qGagarin"][value="${data.qGagarin}"]`);
+          if (radio) radio.checked = true;
+        }
+        if (data.qTereshkova) {
+          const radio = document.querySelector(`input[name="qTereshkova"][value="${data.qTereshkova}"]`);
+          if (radio) radio.checked = true;
+        }
+        if (data.qKorolev) {
+          const radio = document.querySelector(`input[name="qKorolev"][value="${data.qKorolev}"]`);
+          if (radio) radio.checked = true;
+        }
+        if (data.qLaika) {
+          const radio = document.querySelector(`input[name="qLaika"][value="${data.qLaika}"]`);
+          if (radio) radio.checked = true;
+        }
+        document.getElementById("reflection").value = data.reflection || "";
+        document.getElementById("historicalAnswer").value = data.historicalAnswer || "";
+      } catch(e) {}
+    }
+    // Trigger feedback and score update after loading
+    updateQuizFeedbackAndScore();
+  }
+
+  // ========== CHECK COMPLETION ==========
+  function isStageComplete() {
+    const photo = document.getElementById("photoDesc").value.trim();
+    const q1 = document.querySelector('input[name="qGagarin"]:checked');
+    const q2 = document.querySelector('input[name="qTereshkova"]:checked');
+    const q3 = document.querySelector('input[name="qKorolev"]:checked');
+    const q4 = document.querySelector('input[name="qLaika"]:checked');
+    const reflection = document.getElementById("reflection").value.trim();
+    const historical = document.getElementById("historicalAnswer").value.trim();
+    return (photo !== "" && q1 && q2 && q3 && q4 && reflection !== "" && historical !== "");
+  }
+
+  // ========== AUTO-SAVE ON INPUT/CHANGE ==========
+  document.getElementById("photoDesc").addEventListener("input", function() { saveData(); });
+  document.getElementById("reflection").addEventListener("input", function() { saveData(); });
+  document.getElementById("historicalAnswer").addEventListener("input", function() { saveData(); });
+
+  const allRadios = document.querySelectorAll('input[name="qGagarin"], input[name="qTereshkova"], input[name="qKorolev"], input[name="qLaika"]');
+  allRadios.forEach(radio => {
+    radio.addEventListener("change", function() {
+      updateQuizFeedbackAndScore();
+      saveData();
+    });
+  });
+
+  // ========== SAVE BUTTON ==========
+  document.getElementById("saveBtn").addEventListener("click", function() {
+    saveData();
+    updateQuizFeedbackAndScore();
+    alert("✅ Stage 3 progress saved! Quiz score: " + (localStorage.getItem("RSO_Stage3_QuizScore") || "0") + "/4");
+  });
+
+  // ========== NAVIGATION ==========
+  document.getElementById("prevBtn").addEventListener("click", function() {
+    saveData();
+    window.location.href = "stage2_museum.html";
+  });
+
+  document.getElementById("nextBtn").addEventListener("click", function() {
+    if (!isStageComplete()) {
+      alert("⚠️ Please complete all tasks before moving to the next stage.\n\nRequired:\n- Photo description\n- All 4 quiz questions\n- Reflection\n- Historical question");
+      return;
+    }
+    saveData();
+    localStorage.setItem("RSO_TotalScore_Stage3", localStorage.getItem("RSO_Stage3_QuizScore") || "0");
+    window.location.href = "stage4_pavilion.html";
+  });
+
+  // ========== LOAD SAVED DATA ==========
   loadData();
 </script>
 </body>
